@@ -1,0 +1,98 @@
+# Authorization
+
+To set up authorization, start by creating a new project in Firebase:
+
+## Create a Firebase project
+
+Go [your project on Firebase](https://console.firebase.google.com/?_gl=1*odk9x3*_ga*MjAyMzA2NDI1Ni4xNzM5MDI1MTQw*_ga_CW55HF8NVT*MTczOTAyNTE0MC4xLjAuMTczOTAyNTI1OS42MC4wLjA.&pli=1) and create a new project.
+
+<br />
+import Image from "next/image";
+
+<Image
+  src="/create-fb-project.png"
+  alt="Create a Firebase project"
+  width={300}
+  height={300}
+/>
+
+## iOS Setup
+
+### Add a new iOS app
+
+In the Firebase console, add a new iOS app:
+
+<br />
+<Image src="/add-ios-app.png" alt="Add an iOS app" width={300} height={300} />
+
+1. Register your app – Enter your app’s **Bundle ID**.
+
+2. Download the Firebase config file (**GoogleService-Info.plist**).
+
+<br />
+<Image
+  src="/download-fb-config-ios.png"
+  alt="Download Firebase config iOS"
+  width={300}
+  height={300}
+/>
+
+3. Open your iOS project in Xcode by running:
+
+```shell copy
+npx cap open ios
+```
+
+5. Put downloaded config file into the root of Xcode project
+
+<br />
+<Image
+  src="/put-fb-config-ios.png"
+  alt="Put Firebase config iOS"
+  width={300}
+  height={300}
+/>
+
+### Install Firebase SDK
+
+1. Open your project in Xcode.
+
+2. Navigate to File > Add Package Dependencies.
+
+3. When prompted, enter the Firebase iOS SDK repository URL:
+
+```shell copy
+https://github.com/firebase/firebase-ios-sdk
+```
+
+4. Click Add Package and install the necessary Firebase modules.
+
+<br />
+<Image
+  src="/install-fb-pg-ios.png"
+  alt="Install Firebase package iOS"
+  width={300}
+  height={300}
+/>
+
+### Google Sign-in method
+
+To enable Google Sign-in:
+    1. Enable Google Sign-in in the Firebase authentication settings.
+	2. Download the updated Firebase config file and replace the old one in your Xcode project.
+
+Follow the official Capacitor Firebase authentication setup guide:
+🔗 Google Sign-in Setup Guide
+
+#### Configure Custom URL Schemes
+
+To set up URL schemes for Google Sign-in:
+	1.	Open Xcode and navigate to your project settings.
+	2.	Select your app from the TARGETS section.
+	3.	Go to the Info tab and expand the URL Types section.
+	4.	Click the + button and add a new URL scheme using your REVERSED_CLIENT_ID.
+	•	You can find this value in GoogleService-Info.plist under REVERSED_CLIENT_ID.
+	•	Copy and paste it into the URL Schemes field.
+	•	Leave the other fields blank.
+
+https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-google.md
