@@ -1,19 +1,84 @@
+import { Callout } from "nextra-theme-docs";
+
 # Get Started
 
-Hey, builder! Here's a quick guide to get your project up and running!
+### Hey, builder 👋
+
+Here's a quick guide to get your project up and start shipping cool mobile apps
 
 ## Start a local server
 
 1. In your terminal, run the following commands **one-by-one**:
 
-```shell copy
-git clone https://github.com/lite1pal/lasting-habits.git [YOUR_APP_NAME]
-```
+```shell copy filename="/app/(mobile)/router.tsx"
+git clone https://github.com/lite1pal/nextnative.git [YOUR_APP_NAME]
 
-```shell copy
 cd [YOUR_APP_NAME]
 
 npm i
+
+git remote remove origin
+
+mv .env.example .env.local
 ```
 
-> **NextNative** requires Node 18.17 or greater. Type node -v in your terminal to check version.
+<Callout type="info">
+  **NextNative** requires Node 20 or greater. Type node -v in your terminal to
+  check version.
+</Callout>
+
+Now make sure your [environment is set up](https://capacitorjs.com/docs/getting-started/environment-setup)
+for the iOS and Android platforms you will be building for.
+
+Here are the essentials:
+
+### iOS requiments
+
+1.  To build iOS apps with NextNative, you’ll need macOS. While tools like Ionic Appflow offer cloud builds, having a Mac is strongly recommended for proper testing.
+
+To get started, you need to install the next:
+
+```txt
+	•	Xcode (via the App Store, version 16.0+ required)
+	•	Xcode Command Line Tools (xcode-select --install)
+	•	Homebrew
+	•	Cocoapods
+```
+
+#### Xcode
+
+You can install Xcode by using the [Apple App Store](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://apps.apple.com/us/app/xcode/id497799835%3Fmt%3D12&ved=2ahUKEwib2urfodyMAxXKJxAIHWbUIrMQFnoECAkQAQ&usg=AOvVaw2fEvMbfRtGhB4SPHYB54NX) on your Mac.
+
+But don't worry, you're going to build everything in your favorite IDE. Xcode is needed to run an emulator.
+
+#### CocoaPods
+
+To run an iOS app in Xcode emulators, you need CocoaPods.
+
+Check whether you have already them installed:
+
+```shell
+pod --version
+```
+
+If not, then install them with homebrew:
+
+```shell
+brew install cocoapods
+```
+
+<Callout type="info">
+  Install [Homebrew](https://brew.sh) if you don't have it.
+</Callout>
+
+<br />
+
+### Android requirements
+
+You need to install [Android Studio](https://developer.android.com/studio) and Android SDK
+
+Follow [official Capacitor docs](https://capacitorjs.com/docs/getting-started/environment-setup#android-requirements).
+
+## You're almost there 🚀
+
+Now go ahead and follow [this tutorial](/tutorials/ship-in-5-minutes) to get your mobile app running!
