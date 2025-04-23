@@ -1,0 +1,557 @@
+# Native Device Features
+
+One of the most powerful aspects of NextNative is its ability to access native device features through Capacitor. This tutorial will show you how to use various device capabilities like storage, sharing, camera, geolocation, and more in your NextNative applications.
+
+## Understanding Capacitor
+
+[Capacitor](https://capacitorjs.com/) is the native runtime that powers NextNative apps. It provides a consistent, web-focused API for accessing native device functionality across platforms.
+
+Key benefits of Capacitor:
+
+- Access native functionality through JavaScript
+- Cross-platform support (iOS, Android, and web)
+- Extensive plugin ecosystem
+- Seamless integration with web frameworks
+
+## Setting Up Capacitor
+
+NextNative includes Capacitor pre-configured in the boilerplate. The main configuration file is `capacitor.config.ts`:
+
+```typescript
+// capacitor.config.ts
+import type { CapacitorConfig } from "@capacitor/cli";
+
+const config: CapacitorConfig = {
+  appId: "com.nextnative.app",
+  appName: "NextNative",
+  webDir: "out",
+
+  ios: {
+    scheme: "NextNative",
+  },
+
+  plugins: {
+    SplashScreen: {
+      backgroundColor: "#1a1a1a",
+      splashFullScreen: true,
+      splashImmersive: true,
+      launchAutoHide: false,
+    },
+    FirebaseAuthentication: {
+      skipNativeAuth: false,
+      providers: ["google.com", "apple.com"],
+    },
+    FirebaseMessaging: {
+      presentationOptions: ["sound", "alert"],
+    },
+  },
+};
+
+export default config;
+```
+
+This file configures your app's ID, name, and plugin-specific options.
+
+## Checking Platform
+
+Before using native features, it's often necessary to check which platform your app is running on:
+
+```typescript
+import { Capacitor } from "@capacitor/core";
+
+// Check if running on a native platform (iOS/Android)
+const isNative = Capacitor.isNativePlatform();
+
+// Get the specific platform
+const platform = Capacitor.getPlatform(); // 'ios', 'android', or 'web'
+
+// Example usage
+if (platform === "ios") {
+  // iOS-specific code
+} else if (platform === "android") {
+  // Android-specific code
+} else {
+  // Web fallback
+}
+```
+
+This pattern is commonly used throughout NextNative to provide platform-specific behavior.
+
+## Essential Capacitor Plugins
+
+Let's explore how to use some of the core Capacitor plugins in your NextNative app:
+
+### 1. Preferences (Data Storage)
+
+The Preferences plugin provides persistent key-value storage:
+
+```typescript
+import { Preferences } from "@capacitor/preferences";
+
+// Saving data
+async function saveData() {
+  await Preferences.set({
+    key: "user_settings",
+    value: JSON.stringify({
+      darkMode: true,
+      notifications: true,
+    }),
+  });
+}
+
+// Loading data
+async function loadData() {
+  const { value } = await Preferences.get({ key: "user_settings" });
+  if (value) {
+    return JSON.parse(value);
+  }
+  return null;
+}
+
+// Removing data
+async function removeData() {
+  await Preferences.remove({ key: "user_settings" });
+}
+
+// Clearing all data
+async function clearAll() {
+  await Preferences.clear();
+}
+```
+
+NextNative provides a storage service wrapper for Preferences in `app/(mobile)/services/storage.ts` that adds a structured layer on top of the basic API:
+
+```typescript
+import {
+  PreferencesStorageAdapter,
+  StorageService,
+} from "@/app/(mobile)/services/storage";
+
+// Using the storage service in a component
+async function loadUserSettings() {
+  try {
+    const settings = await StorageService.loadSettings();
+    setDarkMode(settings.darkMode || false);
+    setNotifications(settings.notifications || false);
+  } catch (error) {
+    console.error("Failed to load settings:", error);
+  }
+}
+```
+
+### 2. Share
+
+[The Share plugin](https://capacitorjs.com/docs/apis/share) lets you access the native sharing dialog:
+
+```typescript
+import { Share } from "@capacitor/share";
+
+async function shareContent() {
+  await Share.share({
+    title: "Check out NextNative!",
+    text: "Build cross-platform apps with Next.js",
+    url: "https://nextnative.dev",
+    dialogTitle: "Share with your friends",
+  });
+}
+```
+
+Real-world example from NextNative settings screen:
+
+```typescript
+import { Share } from "@capacitor/share";
+
+// In a component
+<Button
+  onClick={async () => {
+    await Share.share({
+      title: "NextNative",
+      text: "Build mobile apps with NextNative",
+      url: "https://nextnative.dev",
+      dialogTitle: "Share with friends",
+    });
+  }}
+>
+  Share App
+</Button>
+```
+
+### 3. Camera
+
+To access the device [camera](https://capacitorjs.com/docs/apis/camera#example):
+
+```typescript
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+
+async function takePicture() {
+  try {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera,
+    });
+
+    // The image URI can be used in an <img> tag or uploaded to a server
+    const imageUrl = image.webPath;
+    setProfileImage(imageUrl);
+  } catch (error) {
+    console.error("Failed to take photo:", error);
+  }
+}
+```
+
+### 4. Geolocation
+
+To access the device's [location](https://capacitorjs.com/docs/apis/geolocation):
+
+```typescript
+import { Geolocation } from "@capacitor/geolocation";
+
+async function getCurrentPosition() {
+  try {
+    const coordinates = await Geolocation.getCurrentPosition();
+
+    console.log("Current position:", coordinates);
+
+    const { latitude, longitude } = coordinates.coords;
+    setUserLocation({ lat: latitude, lng: longitude });
+  } catch (error) {
+    console.error("Failed to get location:", error);
+  }
+}
+```
+
+### 5. Push Notifications
+
+NextNative integrates with Firebase for push notifications. Here's a simplified example:
+
+```typescript
+import { FirebaseMessaging } from "@capacitor-firebase/messaging";
+
+// Request permission to receive notifications
+async function requestNotificationPermission() {
+  try {
+    const { receive } = await FirebaseMessaging.requestPermissions();
+    if (receive === "granted") {
+      await registerNotifications();
+    }
+  } catch (error) {
+    console.error("Notification permission error:", error);
+  }
+}
+
+// Register for push notifications
+async function registerNotifications() {
+  // Get the FCM token
+  const { token } = await FirebaseMessaging.getToken();
+
+  // Save the token to your server
+  await saveTokenToServer(token);
+
+  // Listen for incoming messages
+  FirebaseMessaging.addListener("notificationReceived", (notification) => {
+    console.log("New notification:", notification);
+  });
+}
+```
+
+## Creating a Custom Hook for Device Features
+
+For a clean architecture, consider creating custom hooks for device features:
+
+```typescript
+// hooks/useDeviceCamera.ts
+import { useState } from "react";
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import { Capacitor } from "@capacitor/core";
+
+export function useDeviceCamera() {
+  const [photo, setPhoto] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  async function takePhoto() {
+    if (!Capacitor.isNativePlatform()) {
+      setError(new Error("Camera is only available on native platforms"));
+      return null;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+      });
+
+      const photoUrl = image.webPath || "";
+      setPhoto(photoUrl);
+      return photoUrl;
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Unknown camera error"));
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return {
+    photo,
+    takePhoto,
+    loading,
+    error,
+  };
+}
+```
+
+Usage example:
+
+```tsx
+function ProfileScreen() {
+  const { photo, takePhoto, loading } = useDeviceCamera();
+
+  return (
+    <div>
+      {photo && (
+        <img
+          src={photo}
+          alt="Profile Photo"
+          className="w-32 h-32 rounded-full object-cover"
+        />
+      )}
+
+      <Button onClick={takePhoto} disabled={loading}>
+        {loading ? "Processing..." : "Take Photo"}
+      </Button>
+    </div>
+  );
+}
+```
+
+## Handling Web Fallbacks
+
+A key advantage of NextNative is its ability to work on both web and mobile. When using native features, provide web fallbacks:
+
+```typescript
+import { Capacitor } from "@capacitor/core";
+import { Share } from "@capacitor/share";
+
+async function shareContent() {
+  const content = {
+    title: "NextNative",
+    text: "Build mobile apps with web technologies",
+    url: "https://nextnative.dev",
+  };
+
+  try {
+    if (Capacitor.isNativePlatform()) {
+      // Native sharing
+      await Share.share({
+        ...content,
+        dialogTitle: "Share with friends",
+      });
+    } else if (navigator.share) {
+      // Web Share API (modern browsers)
+      await navigator.share({
+        title: content.title,
+        text: content.text,
+        url: content.url,
+      });
+    } else {
+      // Fallback for browsers without share capability
+      copyToClipboard(`${content.text} ${content.url}`);
+      alert("Link copied to clipboard!");
+    }
+  } catch (error) {
+    console.error("Error sharing:", error);
+  }
+}
+
+function copyToClipboard(text: string) {
+  navigator.clipboard.writeText(text).catch((err) => {
+    console.error("Could not copy text: ", err);
+  });
+}
+```
+
+## Adding New Capacitor Plugins
+
+To add additional native functionality, you can install more [Capacitor plugins](https://capacitorjs.com/docs/plugins):
+
+1. Install the plugin:
+
+```bash
+npm install @capacitor/plugin-name
+npm run mobile:dev
+```
+
+2. Import and use the plugin in your app:
+
+```typescript
+import { PluginName } from "@capacitor/plugin-name";
+
+// Use the plugin
+async function usePlugin() {
+  const result = await PluginName.methodName();
+  console.log(result);
+}
+```
+
+## Example: Building a Location-Based Feature
+
+Let's create a complete example that uses geolocation and the device camera:
+
+```tsx
+import React, { useState, useEffect } from "react";
+import { IonContent, IonPage, IonButton } from "@ionic/react";
+import { Geolocation } from "@capacitor/geolocation";
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import { Capacitor } from "@capacitor/core";
+import { Share } from "@capacitor/share";
+import ScreenContainer from "@/app/(mobile)/components/ScreenContainer";
+
+interface LocationPhoto {
+  photoUrl: string;
+  location: {
+    latitude: number;
+    longitude: number;
+  };
+  timestamp: number;
+}
+
+export default function LocationPhotoScreen() {
+  const [photos, setPhotos] = useState<LocationPhoto[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  async function captureLocationPhoto() {
+    if (!Capacitor.isNativePlatform()) {
+      alert("This feature requires a mobile device");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // 1. Get current location
+      const position = await Geolocation.getCurrentPosition();
+
+      // 2. Take a photo
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+      });
+
+      const photoUrl = image.webPath || "";
+
+      // 3. Create a new entry
+      const newPhoto: LocationPhoto = {
+        photoUrl,
+        location: {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        },
+        timestamp: Date.now(),
+      };
+
+      // 4. Update state
+      setPhotos((prev) => [...prev, newPhoto]);
+
+      // 5. Show success message
+      alert("Photo captured with location!");
+    } catch (error) {
+      console.error("Error capturing location photo:", error);
+      alert("Failed to capture photo with location");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function sharePhoto(photo: LocationPhoto) {
+    try {
+      await Share.share({
+        title: "My Location Photo",
+        text: `Photo taken at coordinates: ${photo.location.latitude}, ${photo.location.longitude}`,
+        url: photo.photoUrl,
+      });
+    } catch (error) {
+      console.error("Error sharing photo:", error);
+    }
+  }
+
+  return (
+    <ScreenContainer>
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Location Photos</h1>
+
+        <div className="mb-4">
+          <IonButton
+            expand="block"
+            onClick={captureLocationPhoto}
+            disabled={loading || !Capacitor.isNativePlatform()}
+          >
+            {loading ? "Processing..." : "Capture Photo with Location"}
+          </IonButton>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          {photos.map((photo, index) => (
+            <div
+              key={index}
+              className="border rounded-lg overflow-hidden bg-white dark:bg-gray-800"
+            >
+              <img
+                src={photo.photoUrl}
+                alt={`Location ${index}`}
+                className="w-full h-40 object-cover"
+              />
+              <div className="p-2">
+                <p className="text-xs text-gray-500">
+                  {new Date(photo.timestamp).toLocaleString()}
+                </p>
+                <p className="text-xs">
+                  {photo.location.latitude.toFixed(4)},
+                  {photo.location.longitude.toFixed(4)}
+                </p>
+                <button
+                  className="mt-2 text-blue-500 text-sm"
+                  onClick={() => sharePhoto(photo)}
+                >
+                  Share
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {photos.length === 0 && (
+          <p className="text-center text-gray-500 mt-8">
+            No photos yet. Tap the button above to capture one!
+          </p>
+        )}
+      </div>
+    </ScreenContainer>
+  );
+}
+```
+
+## Best Practices
+
+1. **Always check platform**: Use `Capacitor.isNativePlatform()` before executing native code
+2. **Provide web fallbacks**: Create web alternatives when native features aren't available
+3. **Handle permissions**: Request and check permissions before using sensitive features
+4. **Error handling**: Implement proper error handling for all native API calls
+5. **Lazy loading**: Consider lazy-loading native plugins to reduce initial bundle size
+6. **Testing**: Test your app on actual devices, not just in the browser
+7. **Version management**: Keep Capacitor and plugins updated for best compatibility
+
+## Conclusion
+
+NextNative leverages Capacitor to provide seamless access to native device features while maintaining the simplicity of web development. By using the patterns and practices outlined in this tutorial, you can create powerful cross-platform applications that take full advantage of device capabilities without sacrificing the developer experience.
+
+For more information on available plugins and their APIs, refer to the [Capacitor documentation](https://capacitorjs.com/docs/apis).

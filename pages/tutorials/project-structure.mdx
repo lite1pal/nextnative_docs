@@ -1,0 +1,45 @@
+# Project Structure
+
+The NextNative project structure follows a consistent organization to help you navigate and build your application effectively.
+
+## Root Directory
+
+- `app/` - Contains the main application code, pages, and components. You'll be working inside of it 99% of your time.
+- `assets/` - Static assets like images and fonts. Learn more [here](https://capacitorjs.com/docs/guides/splash-screens-and-icons).
+- `db/` - Database-related files
+- `icons/` - Icon components and assets that [were generated](https://capacitorjs.com/docs/guides/splash-screens-and-icons) from `assets/` folder.
+- `ios/` and `android/` - Native platform-specific code
+- `lib/` - Utility functions and shared code
+- `prisma/` - Prisma ORM configuration and schema
+- `public/` - Static files served directly
+- `scripts/` - Utility scripts
+- `services/` - API services and external integrations
+- `storage/` - Storage utilities
+
+## App Directory
+
+The `app/` directory uses Next.js App Router architecture and contains platform-specific code:
+
+- `(mobile)/` - Contains cross-platform components and pages that will be statically generated with Next.js's `output: export`. Uses IonicRouter to create native-like animated transitions for mobile navigation.
+- `(web)/` - Contains the web landing page to market your app and web-specific components that are server-side rendered and use Next.js routing.
+- `api/` - Next.js API routes
+- `i18n/` - Internationalization files and configuration
+- `globals.css` - Global CSS styles
+- `layout.tsx` - Root layout component that wraps all pages
+- `page.tsx` - Main entry page of the application. By default, it imports the cross-platform code. If you need to have a landing page in a single codebase, follow [this tutorial]().
+- `not-found.tsx` - Custom 404 error page
+- `opengraph-image.png` - Default Open Graph image for social sharing
+- `favicon.ico` - Website favicon
+
+## Configuration Files
+
+- `capacitor.config.ts` - Capacitor configuration for native apps
+- `config.ts` - Application configuration
+- `next.config.js` - Next.js configuration
+- `tailwind.config.js` - Tailwind CSS configuration
+- `tsconfig.json` - TypeScript configuration
+- `.env` - Environment variables (use `.env.example` as a template)
+
+## Getting Started
+
+For more information on how to use this project structure, refer to the `GETTING_STARTED.md` file in the root directory.

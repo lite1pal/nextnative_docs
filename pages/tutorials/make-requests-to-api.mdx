@@ -1,0 +1,267 @@
+# Making Requests to API in NextNative
+
+This tutorial shows how to make requests to NextJS API routes in a NextNative application using SWR.
+
+## Fetching Data
+
+```tsx
+// Basic data fetching
+import useSWR from "swr";
+
+function UserProfile({ userId }) {
+  const { data, error, isLoading } = useSWR(`/api/users/${userId}`);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading profile</div>;
+
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <p>Email: {data.email}</p>
+    </div>
+  );
+}
+
+// Conditional fetching
+const { data, error } = useSWR(userId ? `/api/users/${userId}` : null);
+```
+
+## Using Fetch in (web) Components
+
+For components in the `app/(web)` folder, you can use the built-in fetch API directly since these components run server-side by default with Next.js App Router:
+
+```tsx
+// app/(web)/users/[id]/page.tsx
+export default async function UserPage({ params }) {
+  // Server Component - runs on the server
+  const userId = params.id;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`
+  );
+  const user = await res.json();
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>Email: {user.email}</p>
+    </div>
+  );
+}
+```
+
+For client components in the (web) folder:
+
+```tsx
+// app/(web)/components/UserProfile.tsx
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await fetch(`/api/users/${userId}`);
+        const data = await res.json();
+        setUser(data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUser();
+  }, [userId]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <div>User not found</div>;
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>Email: {user.email}</p>
+    </div>
+  );
+}
+```
+
+## Creating Reusable Hooks
+
+```tsx
+// hooks/api-hooks.ts
+import useSWR from "swr";
+
+export function useProducts(category?: string) {
+  const url = category
+    ? `/api/products?category=${encodeURIComponent(category)}`
+    : "/api/products";
+
+  const { data, error, isLoading } = useSWR(url);
+
+  return {
+    products: data || [],
+    isLoading,
+    isError: error,
+  };
+}
+```
+
+## Handling Web vs. Native Environments
+
+```tsx
+// lib/api-client.ts
+import { Capacitor } from "@capacitor/core";
+
+export function getApiUrl(path: string): string {
+  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+
+  if (Capacitor.isNativePlatform()) {
+    // Use your deployed API URL for native platforms
+    return `https://your-api-domain.com/${cleanPath}`;
+  }
+
+  // For web, use relative URLs
+  return `/${cleanPath}`;
+}
+
+export async function fetcher<T>(
+  path: string,
+  options?: RequestInit
+): Promise<T> {
+  const url = getApiUrl(path);
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    throw new Error("An error occurred while fetching the data.");
+  }
+
+  return response.json();
+}
+```
+
+## Mutating Data
+
+```tsx
+// Creating a new resource
+function CreateTodo() {
+  const { data: todos, mutate } = useSWR("/api/todos");
+  const [title, setTitle] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      // Send POST request
+      const newTodo = await fetcher("/api/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title }),
+      });
+
+      // Update local data without revalidation
+      mutate([...todos, newTodo], false);
+      setTitle("");
+    } catch (error) {
+      console.error("Error creating todo:", error);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Add a todo"
+      />
+      <button type="submit">Add</button>
+    </form>
+  );
+}
+
+// Updating data
+async function toggleTodo(id, completed) {
+  // Optimistically update UI
+  mutate(
+    todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !completed } : todo
+    ),
+    false
+  );
+
+  // Update on server
+  try {
+    await fetcher(`/api/todos/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ completed: !completed }),
+    });
+  } catch (error) {
+    // Revert on error
+    mutate();
+  }
+}
+
+// Deleting data
+async function deleteTodo(id) {
+  // Optimistically update UI
+  mutate(
+    todos.filter((todo) => todo.id !== id),
+    false
+  );
+
+  // Delete on server
+  try {
+    await fetcher(`/api/todos/${id}`, {
+      method: "DELETE",
+    });
+  } catch (error) {
+    // Revert on error
+    mutate();
+  }
+}
+```
+
+## Authentication
+
+```tsx
+// lib/api-client.ts with authentication
+import { Preferences } from "@capacitor/preferences";
+
+export async function authFetcher<T>(
+  url: string,
+  options: RequestInit = {}
+): Promise<T> {
+  // Get auth token from storage
+  const { value } = await Preferences.get({ key: "auth_token" });
+  const token = value || "";
+
+  // Include token in headers
+  const headers = {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...options.headers,
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error("An error occurred while fetching the data.");
+  }
+
+  return response.json();
+}
+```
+
+## Best Practices
+
+1. **Create reusable hooks** for API endpoints
+2. **Handle loading and error states** in components
+3. **Use optimistic updates** for better UX
+4. **Properly handle web vs. native environments**
+5. **Add authentication tokens** consistently across requests

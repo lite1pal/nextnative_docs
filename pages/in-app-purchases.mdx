@@ -1,0 +1,56 @@
+# In-App Purchases with RevenueCat
+
+Let's set up in-app purchases in your NextNative app using RevenueCat. It's pretty straightforward.
+
+## What's RevenueCat?
+
+RevenueCat handles all the complex stuff with in-app purchases so you don't have to. It works across iOS and Android, and gives you a simple API to work with.
+
+## Getting Started
+
+1. Head over to [RevenueCat](https://www.revenuecat.com/) and create an account
+2. Set up your products in their dashboard
+3. Grab your API key
+4. Add these to your `.env.local`:
+
+```
+NEXT_PUBLIC_REVENUECAT_API_KEY=your_key_here
+NEXT_PUBLIC_REVENUECAT_PRODUCT_ID=your_product_id
+```
+
+## Using useRevenueCat in your app
+
+```tsx
+function PremiumFeature({user}) {
+  const {
+    isPro,
+    isInitialized,
+    isLoading,
+    customerInfo,
+    error,
+    purchase,
+    restore,
+  } = useRevenueCat(user.id);
+
+  if (!isPro) {
+    return (
+      <div>
+        <h2>Unlock Premium Features</h2>
+        <button onClick={() => purchase("premium_monthly")}>
+          Go Premium - $4.99/month
+        </button>
+      </div>
+    );
+  }
+
+  return <div>Welcome to premium features!</div>;
+}
+```
+
+## Testing Tips
+
+- Use Apple/Google sandbox accounts for testing
+- Check the RevenueCat dashboard to see purchases
+- Test on real devices (the simulator is tricky with purchases)
+
+That's it! RevenueCat makes in-app purchases way easier than doing it all yourself. Check out their [docs](https://docs.revenuecat.com/docs) for more details.

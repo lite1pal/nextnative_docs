@@ -1,0 +1,165 @@
+## Onboarding Flow
+
+Onboarding helps users understand your app's value and functionality. NextNative provides a customizable onboarding flow with smooth transitions.
+
+<br />
+import Image from "next/image";
+
+<Image src="/onboarding.gif" alt="Onboarding" width={300} height={300} />
+
+
+### Onboarding Screen Component
+
+The `OnboardingScreen` component displays a series of slides and manages navigation between them:
+
+```tsx
+// Simplified version of app/(mobile)/components/OnboardingScreen.tsx
+const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [isExiting, setIsExiting] = useState(false);
+
+  // Navigation functions and animations
+  // ...
+
+  return (
+    <motion.div className="fixed inset-0 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700">
+      {/* Skip button */}
+      {/* Slide content with animations */}
+      {/* Progress dots and next/done button */}
+    </motion.div>
+  );
+};
+```
+
+### OnboardInitializer Component
+
+The `OnboardInitializer` component manages whether to show the onboarding flow or the main app:
+
+```tsx
+// app/(mobile)/components/OnboardInitializer.tsx
+const AppInitializer: React.FC<AppInitializerProps> = ({ children }) => {
+  const [onboardingCompleted, setOnboardingCompleted] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      // Check if onboarding has been completed before
+      const onboardingStatus = await Preferences.get({
+        key: "onboardingCompleted10",
+      });
+      setOnboardingCompleted(onboardingStatus.value === "true");
+      setIsInitialized(true);
+    };
+    initializeApp();
+  }, []);
+
+  const handleOnboardingComplete = async () => {
+    await Preferences.set({ key: "onboardingCompleted10", value: "true" });
+    setOnboardingCompleted(true);
+  };
+
+  if (!isInitialized) return null;
+
+  if (!onboardingCompleted) {
+    return <OnboardingScreen onComplete={handleOnboardingComplete} />;
+  }
+
+  return <>{children}</>;
+};
+```
+
+This component:
+
+1. Checks if the user has completed onboarding before
+2. Shows the onboarding screen if it's the first time
+3. Renders the main app if onboarding is completed
+
+### Using the Onboarding Flow
+
+To use the onboarding flow, wrap your app with the `OnboardInitializer`:
+
+```tsx
+// app/(mobile)/router.tsx
+import OnboardInitializer from "@/app/(mobile)/components/OnboardInitializer";
+
+const AppRouter = () => {
+  const { showSplash } = useSplashScreen();
+
+  return (
+    <IonApp>
+      {showSplash && <SplashScreen />}
+      <OnboardInitializer>
+        {/* Your main app */}
+        <IonReactRouter>{/* Routes */}</IonReactRouter>
+      </OnboardInitializer>
+    </IonApp>
+  );
+};
+```
+
+## Customizing the Onboarding Content
+
+The onboarding slides are defined as an array of objects:
+
+```tsx
+const onboardingSlides = [
+  {
+    id: 1,
+    title: "Welcome!",
+    description: "Discover the amazing features of our app.",
+  },
+  {
+    id: 2,
+    title: "Connect Seamlessly",
+    description: "Stay in touch with friends and colleagues effortlessly.",
+  },
+  {
+    id: 3,
+    title: "Get Started",
+    description: "You're all set to explore. Let's dive in!",
+  },
+];
+```
+
+To customize the onboarding content:
+
+1. Edit the titles and descriptions
+2. Add more slides if needed
+3. Customize the background color or gradient
+4. Add images or illustrations to each slide
+
+## Customizing the Splash Screen
+
+To customize your splash screen:
+
+1. Replace the `DefaultLogo` component with your own logo
+2. Adjust the animation timing and transitions
+3. Change the background color or gradient
+4. Add additional animations or elements
+
+NextNative includes several pre-made splash screen logos that you can use:
+
+- `DefaultLogo`
+- `SpinningStar`
+- `PulsingSpiral`
+- `FoldingTriangles`
+- `Swoosh`
+- `AppleBite`
+- `XCross`
+
+Simply import and use them in your SplashScreen component.
+
+## Best Practices
+
+- **Keep onboarding brief**: Limit to 3-4 screens highlighting key features
+- **Make it skippable**: Always provide an option to skip
+- **Test with real users**: Ensure your flow is intuitive
+- **Consider accessibility**: Make sure your splash screen and onboarding work well with screen readers
+- **Optimize animations**: Keep animations smooth and lightweight
+
+## Conclusion
+
+A well-designed splash screen and onboarding flow can significantly improve your app's first impression and user retention. NextNative's built-in components make it easy to create a polished experience that guides users into your app seamlessly.
+
+For more customization options, explore the full source code in the `app/(mobile)/components/` directory.

@@ -1,0 +1,95 @@
+# Splash Screens
+
+A polished mobile app experience starts with a well-designed splash screen and onboarding flow. NextNative provides components and hooks to make this process simple and effective. This tutorial will guide you through customizing both elements for your app.
+
+<br />
+import Image from "next/image";
+
+<Image src="/splash-screen.gif" alt="Splash screen" width={300} height={300} />
+
+The splash screen is the first thing users see when launching your app. NextNative provides both a native splash screen (using Capacitor) and a custom in-app splash screen for a smooth transition.
+
+### Native Splash Screen
+
+The native splash screen is managed by Capacitor and appears instantly when the app launches. You can customize it in the `assets/` folder and [generate](https://capacitorjs.com/docs/guides/splash-screens-and-icons) platform-specific assets using the Capacitor CLI.
+
+### In-App Splash Screen
+
+The in-app splash screen takes over after the native splash screen and provides a smoother transition to your app. Let's look at how it's implemented:
+
+```tsx
+// app/(mobile)/components/SplashScreen.tsx
+import React from "react";
+import { motion } from "framer-motion";
+
+const SplashScreen = () => {
+  return (
+    <motion.div
+      className="fixed inset-0 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 z-50 overflow-hidden"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0 }}
+      transition={{ duration: 0.5, delay: 1.5 }}
+      style={{ pointerEvents: "none" }}
+    >
+      <DefaultLogo />
+    </motion.div>
+  );
+};
+
+export default SplashScreen;
+```
+
+This component uses Framer Motion for smooth animations. The `DefaultLogo` is a simple SVG animation, but you can replace it with your own logo.
+
+### Managing the Splash Screen
+
+NextNative provides a custom hook to manage the splash screen:
+
+```tsx
+// app/(mobile)/hooks/useSplashScreen.tsx
+import { useState, useEffect } from "react";
+import { SplashScreen as SplashScreenPlugin } from "@capacitor/splash-screen";
+
+export const useSplashScreen = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const hideSplash = async () => {
+      await SplashScreenPlugin.hide();
+      setTimeout(() => {
+        setShowSplash(false);
+      }, 2000);
+    };
+    hideSplash();
+  }, []);
+
+  return { showSplash };
+};
+```
+
+This hook:
+
+1. Handles the native Capacitor splash screen
+2. Controls the visibility of the in-app splash screen
+3. Returns a `showSplash` boolean to conditionally render the splash screen
+
+### Using the Splash Screen in Your App
+
+To use the splash screen in your app, import the hook and component in your router:
+
+```tsx
+// app/(mobile)/router.tsx
+import { useSplashScreen } from "@/app/(mobile)/hooks/useSplashScreen";
+import SplashScreen from "@/app/(mobile)/components/SplashScreen";
+
+const AppRouter = () => {
+  const { showSplash } = useSplashScreen();
+
+  return (
+    <IonApp>
+      {showSplash && <SplashScreen />}
+      {/* Rest of your app */}
+    </IonApp>
+  );
+};
+```
