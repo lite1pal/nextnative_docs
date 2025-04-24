@@ -12,11 +12,15 @@ We're going to use a production-ready messenger app that I've included.
 npm run mobile:dev
 ```
 
-3. Run this command to open Xcode with path of your project:
+It starts a local server with Live Reload, to which a mobile app will be connected.
+
+3. Create a new terminal window and run this command to open Xcode with path of your project:
 
 ```shell
 npx cap open ios
 ```
+
+Or simply open Xcode yourself.
 
 4. Run an emulator in Xcode:
 
@@ -28,6 +32,10 @@ import Image from "next/image";
   width={300}
   height={300}
 />
+
+Initial launch of an app in the emulator might take some time because it builds everything.
+
+Next times are going to be much faster.
 
 5. That's it. Next step is to build your app's unique features!
 
