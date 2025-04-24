@@ -77,22 +77,52 @@ https://github.com/firebase/firebase-ios-sdk
 
 ### Google Sign-in method
 
-To enable Google Sign-in:
-    1. Enable Google Sign-in in the Firebase authentication settings.
-	2. Download the updated Firebase config file and replace the old one in your Xcode project.
+1. Enable Google Sign-in in the Firebase authentication settings.
 
-Follow the official Capacitor Firebase authentication setup guide:
-🔗 Google Sign-in Setup Guide
+2. Download the updated Firebase config file and replace the old one in your Xcode project.
 
-#### Configure Custom URL Schemes
+#### Configure Custom URL Schemes in Xcode
 
 To set up URL schemes for Google Sign-in:
-	1.	Open Xcode and navigate to your project settings.
-	2.	Select your app from the TARGETS section.
-	3.	Go to the Info tab and expand the URL Types section.
-	4.	Click the + button and add a new URL scheme using your REVERSED_CLIENT_ID.
-	5. You can find this value in GoogleService-Info.plist under REVERSED_CLIENT_ID.
-	6. Copy and paste it into the URL Schemes field.
-	7. Leave the other fields blank.
 
-https://github.com/capawesome-team/capacitor-firebase/blob/main/packages/authentication/docs/setup-google.md
+1. Open Xcode and navigate to your project settings.
+2. Select your app from the TARGETS section.
+3. Go to the Info tab and expand the URL Types section.
+4. Click the + button and add a new URL scheme using your REVERSED_CLIENT_ID.
+5. You can find this value in GoogleService-Info.plist under REVERSED_CLIENT_ID.
+6. Copy and paste it into the URL Schemes field.
+7. Leave the other fields blank.
+
+[video explaining how to do that]
+
+## Web Setup
+
+### Add a new Web app
+
+<br />
+<Image
+  src="/authorization/add-web-app.png"
+  alt="Add web app"
+  width={300}
+  height={300}
+/>
+
+### Update values in .env.local
+
+Take these Firebase Auth config values and paste them in your .env.example
+
+<br />
+<Image
+  src="/authorization/web/copy-paste-to-env.png"
+  alt="Copy paste to env"
+  width={600}
+  height={600}
+/>
+
+<br />
+<Image
+  src="/authorization/web/env-firebase-example.png"
+  alt="Env firebase example"
+  width={600}
+  height={600}
+/>
