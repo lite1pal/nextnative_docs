@@ -1,20 +1,21 @@
 # Genereting different icon sizes from your logo
 
-1. Once you created your logo, copy & paste it to **/assets** folder.
+### Usage - Easy Mode (recommended)
+
+With Easy Mode, the tool supports generating all the icon and splash assets you need for iOS, Android, and PWA from a single logo file along with an optional dark mode logo, and background colors. This is the easiest way to generate all your assets, but it trades customizability for convenience.
+
+To use this mode, create a single `logo.png` or `icon.png` with an optional `logo-dark.png` in `assets/` (the tool also supports using SVG files as source images, substitue `.svg` as needed):
 
 ```
 assets/
-├── icon-only.png
-├── icon-foreground.png
-├── icon-background.png
-├── splash.png
-└── splash-dark.png
+├── logo.png
+└── logo-dark.png
 ```
 
-2. Run a command below to create a folder **/icons** with different icon sizes.
+Then, generate the assets and provide the background colors that will be used to generate background layers for icons:
 
-```shell copy
-npx capacitor-assets generate
+```shell
+npx @capacitor/assets generate --iconBackgroundColor '#eeeeee' --iconBackgroundColorDark '#222222' --splashBackgroundColor '#eeeeee' --splashBackgroundColorDark '#111111'
 ```
 
 import { Callout } from "nextra-theme-docs";
