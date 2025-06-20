@@ -9,7 +9,9 @@ This tutorial shows how to make requests to NextJS API routes in a NextNative ap
 import useSWR from "swr";
 
 function UserProfile({ userId }) {
-  const { data, error, isLoading } = useSWR(`/api/users/${userId}`);
+  const { data, error, isLoading } = useSWR(
+    `${config.api.url}/users/${userId}`
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading profile</div>;
@@ -49,46 +51,6 @@ export default async function UserPage({ params }) {
 }
 ```
 
-For client components in the (web) folder:
-
-```tsx
-// app/(web)/components/UserProfile.tsx
-"use client";
-
-import { useState, useEffect } from "react";
-
-export default function UserProfile({ userId }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const res = await fetch(`/api/users/${userId}`);
-        const data = await res.json();
-        setUser(data);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchUser();
-  }, [userId]);
-
-  if (loading) return <div>Loading...</div>;
-  if (!user) return <div>User not found</div>;
-
-  return (
-    <div>
-      <h1>{user.name}</h1>
-      <p>Email: {user.email}</p>
-    </div>
-  );
-}
-```
-
 ## Creating Reusable Hooks
 
 ```tsx
@@ -97,8 +59,8 @@ import useSWR from "swr";
 
 export function useProducts(category?: string) {
   const url = category
-    ? `/api/products?category=${encodeURIComponent(category)}`
-    : "/api/products";
+    ? `${config.api.url}/products?category=${encodeURIComponent(category)}`
+    : `${config.api.url}/products`;
 
   const { data, error, isLoading } = useSWR(url);
 
@@ -148,7 +110,7 @@ export async function fetcher<T>(
 ```tsx
 // Creating a new resource
 function CreateTodo() {
-  const { data: todos, mutate } = useSWR("/api/todos");
+  const { data: todos, mutate } = useSWR(`${config.api.url}/todos`);
   const [title, setTitle] = useState("");
 
   async function handleSubmit(e) {
@@ -156,7 +118,7 @@ function CreateTodo() {
 
     try {
       // Send POST request
-      const newTodo = await fetcher("/api/todos", {
+      const newTodo = await fetcher(`${config.api.url}/todos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title }),
@@ -194,7 +156,7 @@ async function toggleTodo(id, completed) {
 
   // Update on server
   try {
-    await fetcher(`/api/todos/${id}`, {
+    await fetcher(`${config.api.url}/todos/${id}`, {
       method: "PATCH",
       body: JSON.stringify({ completed: !completed }),
     });
@@ -214,7 +176,7 @@ async function deleteTodo(id) {
 
   // Delete on server
   try {
-    await fetcher(`/api/todos/${id}`, {
+    await fetcher(`${config.api.url}/todos/${id}`, {
       method: "DELETE",
     });
   } catch (error) {
@@ -223,45 +185,3 @@ async function deleteTodo(id) {
   }
 }
 ```
-
-## Authentication
-
-```tsx
-// lib/api-client.ts with authentication
-import { Preferences } from "@capacitor/preferences";
-
-export async function authFetcher<T>(
-  url: string,
-  options: RequestInit = {}
-): Promise<T> {
-  // Get auth token from storage
-  const { value } = await Preferences.get({ key: "auth_token" });
-  const token = value || "";
-
-  // Include token in headers
-  const headers = {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers,
-  };
-
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
-
-  if (!response.ok) {
-    throw new Error("An error occurred while fetching the data.");
-  }
-
-  return response.json();
-}
-```
-
-## Best Practices
-
-1. **Create reusable hooks** for API endpoints
-2. **Handle loading and error states** in components
-3. **Use optimistic updates** for better UX
-4. **Properly handle web vs. native environments**
-5. **Add authentication tokens** consistently across requests
