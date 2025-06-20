@@ -1,3 +1,6 @@
+import { Callout } from "nextra-theme-docs";
+import Image from "next/image";
+
 # In-App Purchases with RevenueCat
 
 Let's set up in-app purchases in your NextNative app using RevenueCat. It's pretty straightforward.
@@ -9,19 +12,64 @@ RevenueCat handles all the complex stuff with in-app purchases so you don't have
 ## Getting Started
 
 1. Head over to [RevenueCat](https://www.revenuecat.com/) and create an account
-2. Set up your products in their dashboard
-3. Grab your API key
-4. Add these to your `.env.local`:
+
+<Callout>
+  Before you can start using RevenueCat to fetch products, you must configure your products in the respective stores. See the following guides for [App Store Connect](https://www.revenuecat.com/docs/getting-started/entitlements/ios-products), Google Play Console, Amazon Appstore, Stripe, and Paddle for help navigating through this process.
+
+If you are selling iOS products, be sure to sign your 'Paid Applications Agreement' and fill out your bank and tax information in App Store Connect > Agreements, Tax, and Banking. This needs to be completed before you can test any purchases.
+
+</Callout>
+>
+
+2. Once your in-app products have been configured in App Store Connect/Google, go to RevenueCat's dashboard, and create new products.
+
+<Image
+  src="/purchases/create-product.png"
+  alt="Create a product"
+  width={900}
+  height={900}
+/>
+
+<Callout>
+  Products are the individual in-app purchases you set up on the store platforms
+  (e.g., Apple, Google).
+</Callout>
+
+3. Choose the app that you set up in the Apple/Google.
+
+<br />
+<Image
+  src="/purchases/choose-app.png"
+  alt="Choose an app"
+  width={900}
+  height={900}
+/>
+
+4. Click **Import** to add all products automatically.
+
+<br />
+<Image
+  src="/purchases/import-products.png"
+  alt="Choose an app"
+  width={900}
+  height={900}
+/>
+
+Then go to each product, copy its **RevenueCat ID**, and paste into **.env** file
 
 ```
-NEXT_PUBLIC_REVENUECAT_API_KEY=your_key_here
-NEXT_PUBLIC_REVENUECAT_PRODUCT_ID=your_product_id
+NEXT_PUBLIC_REVENUECAT_API_KEY=your_revenuecat_key_here
+NEXT_PUBLIC_REVENUECAT_MONTHLY_ID=your_monthly_product_id
+NEXT_PUBLIC_REVENUECAT_ANNUALY_ID=your_annualy_product_id
+NEXT_PUBLIC_REVENUECAT_LIFETIME_ID=your_lifetime_product_id
 ```
 
 ## Using useRevenueCat in your app
 
+useRevenueCat hook is located at **services/revenue-cat.ts**. It has all essentials functions to get payments from your users.
+
 ```tsx
-function PremiumFeature({user}) {
+function PremiumFeature({ user }) {
   const {
     isPro,
     isInitialized,
