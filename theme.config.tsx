@@ -36,12 +36,9 @@ const config: DocsThemeConfig = {
     </div>
   ),
   project: {
-    link: "https://github.com/shuding/nextra-docs-template",
+    link: "https://github.com/lite1pal",
   },
-  chat: {
-    link: "https://discord.com",
-  },
-  docsRepositoryBase: "https://github.com/shuding/nextra-docs-template",
+  docsRepositoryBase: "https://github.com/lite1pal/nextnative_docs",
   footer: {
     text: "NextNative Docs",
   },
