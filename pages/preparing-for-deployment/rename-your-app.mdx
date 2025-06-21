@@ -1,0 +1,60 @@
+import { Callout } from "nextra-theme-docs";
+import Image from "next/image";
+
+# Rename your app (by default it’s NextNative)
+
+<Callout>
+  Don't forget to run the following command whenever you make changes to the code before deploying:
+
+`npm run mobile`
+
+</Callout>
+
+1. Open your project in **Xcode** by running:
+
+`npx cap open ios`
+
+2. Select the App project, and double-click the App target to rename. Rename **Bundle Identifier** to be **com.[yourappnamelowercase].app**:
+
+<br />
+<Image
+  src="/rename-app/bundle-id.jpg"
+  alt="Create a product"
+  width={900}
+  height={900}
+  style={{ borderRadius: "16px" }}
+/>
+
+3. Open **Info** tab, go to **Bundle display name** and rename there.
+
+<br />
+<Image
+  src="/rename-app/info.jpg"
+  alt="Create a product"
+  width={900}
+  height={900}
+  style={{ borderRadius: "16px" }}
+/>
+
+4. Then, open **ios/App/Podfile** and rename the current target at the bottom of the
+   file: ￼
+
+<br />
+<Image
+  src="/rename-app/podfile.jpg"
+  alt="Create a product"
+  width={900}
+  height={900}
+  style={{ borderRadius: "16px" }}
+/>
+
+5. And also in **capacitor.config.js**:
+
+<br />
+<Image
+  src="/rename-app/cap-config.jpg"
+  alt="Create a product"
+  width={900}
+  height={900}
+  style={{ borderRadius: "16px" }}
+/>

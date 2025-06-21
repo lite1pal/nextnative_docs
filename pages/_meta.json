@@ -5,7 +5,6 @@
   "in-app-purchases": "💰 In-App Purchases",
   "authorization": "🔒 Authorization",
   "push-notifications": "🔔 Push Notifications",
-  "assets": "📦 Assets",
   "components": "🎨 Components",
-  "extras": "🎁 Extras"
+  "preparing-for-deployment": "🚀 Prep for deployment"
 }

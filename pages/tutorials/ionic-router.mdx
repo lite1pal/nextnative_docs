@@ -1,6 +1,8 @@
 # Using Ionic Router in NextNative
 
-To have these slick app-like transitions between screens we need to use Ionic Router.
+To have these slick app-like transitions between screens we need to use Ionic Router and Navbar.
+
+## Ionic Router
 
 <br />
 import Image from "next/image";
@@ -9,7 +11,7 @@ import Image from "next/image";
 
 Ionic Router is almost the same like React Router, but built for mobile. You'll find it set up in `(mobile)/router.tsx`.
 
-## Router Setup
+### Router Setup
 
 First, let's understand the main router setup in `(mobile)/router.tsx`:
 
@@ -37,14 +39,14 @@ const AppRouter = () => {
 };
 ```
 
-## Key Components
+### Key Components
 
 1. **IonApp**: The root component that wraps your entire application.
 2. **IonReactRouter**: The router component that enables Ionic-specific routing.
 3. **IonRouterOutlet**: Defines where your routes will be rendered, similar to React Router's `Switch`.
 4. **Route**: Standard React Router route component.
 
-## Creating Tab-Based Navigation
+### Creating Tab-Based Navigation
 
 For a typical mobile app with tabs, you can create a structure like this:
 
@@ -88,7 +90,7 @@ export default function AppWithTabs() {
 }
 ```
 
-## Nested Routes and Detail Pages
+### Nested Routes and Detail Pages
 
 For more complex applications, you'll need nested routes for detail pages. Here's how you can set them up:
 
@@ -107,7 +109,7 @@ For more complex applications, you'll need nested routes for detail pages. Here'
 </IonRouterOutlet>
 ```
 
-## Conditionally Showing Tab Bar
+### Conditionally Showing Tab Bar
 
 In many apps, you'll want to hide the tab bar on detail pages:
 
@@ -133,7 +135,7 @@ return (
 );
 ```
 
-## Navigation Between Screens
+### Navigation Between Screens
 
 To navigate between screens, you can use the standard React Router methods:
 
@@ -150,7 +152,7 @@ const history = useHistory();
 history.push("/app/messages/123");
 ```
 
-## Animation Transitions
+### Animation Transitions
 
 Ionic Router automatically adds smooth transitions between pages. You can customize these transitions if needed:
 
@@ -170,7 +172,7 @@ Ionic Router automatically adds smooth transitions between pages. You can custom
 </IonRouterOutlet>
 ```
 
-## Real-World Example
+### Real-World Example
 
 Here's how a messenger app might structure its routes:
 
@@ -221,13 +223,15 @@ Here's how a messenger app might structure its routes:
 </IonTabs>
 ```
 
-## Tips and Best Practices
+### Tips and Best Practices
 
 1. **Keep route definitions organized**: For larger apps, consider separating route definitions into their own files.
 2. **Use parameters consistently**: Use URL parameters (`/route/:id`) for identifying resources.
 3. **Handle loading states**: Add loading indicators while navigating between routes.
 4. **Preserve scroll position**: Ionic handles this automatically in most cases.
 5. **Test on multiple devices**: Make sure your navigation works well on various screen sizes.
+
+## Navbar component
 
 ## Conclusion
 
