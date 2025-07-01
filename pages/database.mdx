@@ -1,13 +1,33 @@
-# Database Setup
+# 📦 Supabase Setup
 
-1. Set up a MongoDB Atlas cluster (or your preferred database)
+## 1. Create Your Supabase Project
 
-2. Update the `DATABASE_URL` in `.env.local`
+1. Go to [supabase.com](https://supabase.com) and sign in.
+2. Click **New Project**.
+3. Fill in:
+   - Project name
+   - Strong database password
+   - Region (choose the closest to your users)
+4. Click **Create Project**
 
-3. Customize your Prisma schema in `prisma/schema.prisma` as needed
+> ⏳ Wait ~1 minute for your database to be provisioned.
 
-4. Run migrations:
+---
 
-```bash
-npx prisma db push
+## 2. Get Your Supabase Keys
+
+1. In your Supabase project, go to **Settings** → **API**
+2. Copy the following:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+
+---
+
+## 3. Add to Your `.env` File
+
+Paste the values into your `.env`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
