@@ -4,7 +4,7 @@ import { Callout, DocsThemeConfig } from "nextra-theme-docs";
 const config: DocsThemeConfig = {
   logo: (
     <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-      <div style={{ position: "relative", top: "2px" }}>
+      <span style={{ position: "relative", top: "2px" }}>
         <svg
           width="26"
           height="26"
@@ -31,10 +31,33 @@ const config: DocsThemeConfig = {
             strokeLinecap="round"
           />
         </svg>
-      </div>
+      </span>
       <p style={{ fontSize: "1.5rem", fontWeight: 500 }}>nextnative</p>
     </div>
   ),
+  logoLink: "https://nextnative.dev",
+
+  banner: {
+    key: "cta-banner",
+    text: (
+      <span>
+        🚀 <strong>Launch mobile apps faster with Next.js</strong>
+        <a
+          href="https://nextnative.dev"
+          target="_blank"
+          style={{
+            textDecoration: "underline",
+            fontWeight: 600,
+            color: "#06B300",
+            marginLeft: "6px",
+          }}
+        >
+          Get NextNative →
+        </a>
+      </span>
+    ),
+  },
+
   project: {
     link: "https://github.com/lite1pal",
   },
@@ -49,9 +72,11 @@ const config: DocsThemeConfig = {
       <meta name="title" content="NextNative Docs" />
     </>
   ),
+
   components: {
     Callout: Callout,
   },
+
   useNextSeoProps() {
     return {
       titleTemplate: "%s – NextNative Docs",

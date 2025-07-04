@@ -1,115 +1,33 @@
-# Authorization with Firebase
+# Firebase Authentication Setup for Web, iOS & Android
 
-To set up authorization, start by creating a new project in Firebase:
+## 🔧 Skip Auth logic to test app without it
+
+Still setting up Firebase Auth? You can skip the sign-in screen and test your app by setting:
+
+```js
+// (mobile)/router.tsx
+const isSignedInTest = true;
+```
 
 ## Create a Firebase project
+
+To set up authorization, start by creating a new project in Firebase:
 
 Go [your project on Firebase](https://console.firebase.google.com/?_gl=1*odk9x3*_ga*MjAyMzA2NDI1Ni4xNzM5MDI1MTQw*_ga_CW55HF8NVT*MTczOTAyNTE0MC4xLjAuMTczOTAyNTI1OS42MC4wLjA.&pli=1) and create a new project.
 
 <br />
-import Image from "next/image";
+import Image from "next/image"; import {Callout} from "nextra-theme-docs";
 
 <Image
   src="/create-fb-project.png"
   alt="Create a Firebase project"
-  width={300}
-  height={300}
-/>
-
-## iOS Setup
-
-### Add a new iOS app
-
-In the Firebase console, add a new iOS app:
-
-<br />
-<Image src="/add-ios-app.png" alt="Add an iOS app" width={300} height={300} />
-
-1. Register your app – Enter your app’s **Bundle ID**.
-
-2. Download the Firebase config file (**GoogleService-Info.plist**).
-
-<br />
-<Image
-  src="/download-fb-config-ios.png"
-  alt="Download Firebase config iOS"
-  width={300}
-  height={300}
-/>
-
-3. Open your iOS project in Xcode by running:
-
-```shell copy
-npx cap open ios
-```
-
-5. Put downloaded config file into the root of Xcode project
-
-<br />
-<Image
-  src="/put-fb-config-ios.png"
-  alt="Put Firebase config iOS"
-  width={300}
-  height={300}
-/>
-
-### Install Firebase SDK
-
-1. Open your project in Xcode.
-
-2. Navigate to File > Add Package Dependencies.
-
-3. When prompted, enter the Firebase iOS SDK repository URL:
-
-```shell copy
-https://github.com/firebase/firebase-ios-sdk
-```
-
-4. Click Add Package and install the necessary Firebase modules.
-
-<br />
-<Image
-  src="/install-fb-pg-ios.png"
-  alt="Install Firebase package iOS"
-  width={300}
-  height={300}
-/>
-
-### Google Sign-in method
-
-1. Enable Google Sign-in in the Firebase authentication settings.
-
-2. Download the updated Firebase config file and replace the old one in your Xcode project.
-
-#### Configure Custom URL Schemes in Xcode
-
-To set up URL schemes for Google Sign-in:
-
-1. Open Xcode and navigate to your project settings.
-2. Select your app from the TARGETS section.
-3. Go to the Info tab and expand the URL Types section.
-4. Click the + button and add a new URL scheme using your REVERSED_CLIENT_ID.
-5. You can find this value in GoogleService-Info.plist under REVERSED_CLIENT_ID.
-6. Copy and paste it into the URL Schemes field.
-7. Leave the other fields blank.
-
-[video explaining how to do that]
-
-## Web Setup
-
-### Add a new Web app
-
-<br />
-<Image
-  src="/authorization/add-web-app.png"
-  alt="Add web app"
-  width={300}
-  height={300}
+  width={500}
+  height={500}
 />
 
 ### Update values in .env.local
 
-Take these Firebase Auth config values and paste them in your .env.example
+Take these Firebase Auth config values and paste them in your **.env.local**
 
 <br />
 <Image
@@ -126,3 +44,189 @@ Take these Firebase Auth config values and paste them in your .env.example
   width={600}
   height={600}
 />
+
+## iOS Setup
+
+Firebase + Capacitor on iOS requires a few native steps. Follow this carefully:
+
+### 1. Register your iOS app
+
+In the Firebase console:
+
+1. Click **Add App** → Select **iOS**
+2. Enter your **iOS Bundle ID** (e.g. `com.yourcompany.yourapp`)
+3. (Optional) Add an App nickname
+4. Click **Register App**
+
+<br />
+
+<Image src="/add-ios-app.png" alt="Add an iOS app" width={500} height={500} />
+
+---
+
+### 2. Download the Firebase config file
+
+Once your iOS app is registered:
+
+1. Click **Download `GoogleService-Info.plist`**
+2. Save it locally – you'll need it in Xcode
+
+<br />
+<Image
+  src="/download-fb-config-ios.png"
+  alt="Download Firebase config iOS"
+  width={500}
+  height={500}
+/>
+
+---
+
+### 3. Open iOS project in Xcode
+
+Run the following command:
+
+```bash
+npx cap open ios
+```
+
+### 4. Add the config to your project
+
+1.  Drag & drop the GoogleService-Info.plist into Xcode
+2.  Select “Copy items if needed”
+3.  Place it in the root of the app target folder
+
+<br />
+<Image
+  src="/put-fb-config-ios.png"
+  alt="Put Firebase config iOS"
+  width={500}
+  height={500}
+/>
+
+### 5. Install Firebase SDK via Swift Package Manager
+
+1.  In Xcode: File → Add Packages
+2.  Paste:
+
+```txt
+   https://github.com/firebase/firebase-ios-sdk
+```
+
+3. Select only the modules you need (e.g. FirebaseAuth)
+4. Click Add Package
+
+<br />
+<Image
+  src="/install-fb-pg-ios.png"
+  alt="Install Firebase package iOS"
+  width={500}
+  height={500}
+/>
+
+### 6. Enable Google Sign-In
+
+    1.	Go to Authentication → Sign-in method
+    2.	Enable Google
+    3.	Save
+
+🔁 Re-download GoogleService-Info.plist and replace the old one
+
+### 7. Configure Custom URL Scheme
+
+    1.	In Xcode, open project settings
+    2.	Select your app under Targets
+    3.	Go to Info → URL Types
+    4.	Click ➕ and add a new entry
+    5.	In URL Schemes, paste your REVERSED_CLIENT_ID
+
+(found in GoogleService-Info.plist) 6. Leave other fields empty
+
+<Callout type="info">
+  This step enables **Google login** redirect to work
+</Callout>
+
+### 8. Test Login Flow
+
+You can now call:
+
+```js
+import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
+
+await FirebaseAuthentication.signInWithGoogle();
+```
+
+Sign out:
+
+```js
+await FirebaseAuthentication.signOut();
+```
+
+<Callout type="info">
+  You can use **SignInScreen.tsx** component where all of these is done. It's
+  going to be run by default.
+</Callout>
+
+## Android Setup
+
+### Add a new Android app
+
+In the Firebase console:
+
+1. Click **Add App** → Select **Android**
+2. Enter your app’s **Package name** (e.g. `com.nextnative.yourapp`)
+3. (Optional) Add app nickname
+4. Click **Register app**
+
+---
+
+### Download & place config file
+
+1. Download the `google-services.json` file
+2. Place it in:
+
+```bash
+android/app/google-services.json
+```
+
+---
+
+### Enable Google Sign-In
+
+In Firebase Console:
+
+- Go to **Authentication → Sign-in method**
+- Enable **Google**
+- Save
+
+---
+
+### Sign in with Google
+
+Use the Capacitor plugin to trigger login:
+
+```ts
+import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
+
+await FirebaseAuthentication.signInWithGoogle();
+```
+
+Sign out:
+
+```ts
+await FirebaseAuthentication.signOut();
+```
+
+---
+
+### Test on real Android device
+
+```bash
+npx cap open android
+```
+
+>
+
+<Callout type="warning">
+  Use a physical device with Google Play Services. Most emulators don’t support
+  this.
+</Callout>

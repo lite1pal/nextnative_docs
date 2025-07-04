@@ -2,13 +2,25 @@
 
 Let's get your mobile app running in 5 minutes ⚡️
 
-We're going to use a production-ready messenger app that I've included.
+We're going to use a production-ready template messenger app that I've included.
 
-1. If you haven't already, follow first the [Get Started](/) tutorial.
+> This guide shows how to preview the app on a simulator and start building your own features right away.
 
-2. Run a mobile app in dev mode. This command handles all the heavy lifting for you by statically building all code, enabling live reload, and many more!
+## 1. Prerequisite: Get Started
 
-```shell
+If you haven’t already, complete the [Get Started](/) tutorial first. It sets up everything under the hood — Capacitor, Next.js, Ionic, and Firebase.
+
+---
+
+## 2. Run Mobile Dev Server
+
+Use this command to start your mobile app in **live reload mode** — it handles:
+
+- Static builds
+- Watching changes
+- Reloading updates
+
+```bash
 npm run mobile:dev
 ```
 
@@ -17,7 +29,7 @@ It starts a local server with [Live Reload](https://capacitorjs.com/docs/guides/
 import { Callout } from "nextra-theme-docs";
 
 <Callout>
-  When you need to make a final production build once your app is ready, run:
+  When you're ready to ship the production build to the App Store or Google Play, run:
 
 `npm run mobile`
 
@@ -25,7 +37,9 @@ Then follow the [Preparing for deployment guide](https://docs.nextnative.dev/pre
 
 </Callout>
 
-3. Create a new terminal window and run this command to open Xcode with path of your project:
+## 3. Open in Xcode
+
+To launch the iOS app in a simulator:
 
 ```shell
 npx cap open ios
@@ -33,9 +47,13 @@ npx cap open ios
 
 Or simply open Xcode yourself and choose the **nextnative/ios** folder.
 
-4. Run an emulator in Xcode:
+## 4. Run the Simulator
+
+Click the ▶️ Run button in Xcode to boot your app.
 
 import Image from "next/image";
+
+<br />
 
 <Image
   src="/run-emulator-xcode.gif"
@@ -44,15 +62,49 @@ import Image from "next/image";
   height={300}
 />
 
-Initial launch of an app in the emulator might take some time because it builds everything.
+🕓 The first build might take a bit longer — Xcode will compile and set up your project.
 
-Next times are going to be much faster.
+✅ All future reloads will be much faster.
 
-5. That's it. Next step is to build your app's unique features!
+## 5. You’re Live! 🚀
 
+That’s it, you’ve got a native mobile app running with Next.js in just a few minutes.
+
+Go ahead and start building your own features:
+
+<br />
 <Image
   src="/ship-in-5-minutes.gif"
   alt="Ship in 5 minutes"
-  width={400}
-  height={400}
+  width={500}
+  height={500}
 />
+
+## Next Steps
+
+<Callout type="info">
+  Now that your app is running, here’s what you can explore next:
+
+- 🗃️ [Connect a Database](/features/database) to store and sync data
+- 🔐 [Add Firebase Authentication](/features/authorization) to authenticate users
+- 💰 [Enable In-App Purchases](/features/in-app-purchases) to start making money
+- 🔔 [Set up Push Notifications](/features/push-notifications) to re-engage users
+- 🚀 [Prepare for App Store / Play Store deployment](/preparing-for-deployment)
+
+Your app’s foundation is solid — time to build something amazing 💡
+
+</Callout>
+
+<Callout type="default" emoji="📚">
+  Want to go deeper? Explore more tutorials like:
+
+- 🧭 [Project Structure](/tutorials/project-structure)
+- 🧩 [Ionic Router](/tutorials/ionic-router)
+- 🔄 [Make Requests to Next.js API](/tutorials/make-requests-to-api)
+- 🧪 [Native Device Features](/tutorials/native-device-features)
+- 🎨 [Splash Screen Setup](/tutorials/splash-screen)
+- 🔑 [Onboarding Flow](/tutorials/onboarding-flow)
+
+Every piece brings you closer to launching a full-featured mobile app.
+
+</Callout>
