@@ -79,7 +79,7 @@ export async function POST(req: Request) {
 ### 🔐 Add Authorization Header (Bearer token)
 
 ```ts
-const res = await fetch("/api/chat", {
+const res = await fetch(`${config.api.url}/api/chat`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -99,13 +99,13 @@ const res = await fetch("/api/chat", {
 import useSWR, { mutate } from "swr";
 
 const sendMessage = async () => {
-  await fetch("/api/chat", {
+  await fetch(`${config.api.url}/api/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
   });
 
-  mutate("/api/chat"); // 🔁 Re-fetch latest data from API
+  mutate(`/api/chat`); // 🔁 Re-fetch latest data from API
 };
 ```
 
