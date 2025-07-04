@@ -1,0 +1,115 @@
+# Create API Routes & Fetch with SWR
+
+Let’s make a simple **API route** and fetch data from it using **SWR**.
+
+---
+
+## 🛠 Step 1: Create an API route
+
+Create a new file under `app/api/hello/route.ts`.
+
+```ts
+// app/api/hello/route.ts
+export async function GET() {
+  return Response.json({ message: "Hello from the API!" });
+}
+```
+
+## 🧠 Step 2: Fetch data with SWR
+
+Now let’s use it in a component:
+
+```js
+"use client";
+
+import config from "@/config";
+import { fetcher } from "@/lib/utils";
+import useSWR from "swr";
+
+function HelloMessage() {
+  const { data, isLoading, error } = useSWR(
+    `${config.api.url}/api/hello`,
+    fetcher,
+    {
+      refreshInterval: 500, // optional polling
+    }
+  );
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading chat</div>;
+
+  return (
+    <div className="text-3xl font-[600] mt-36 mx-auto w-fit">
+      {data?.message}
+    </div>
+  );
+}
+
+export default HelloMessage;
+```
+
+<Callout type="warning">
+  Make sure to **update `NEXT_PUBLIC_PRODUCTION_URL`** when you deploy your app
+  and API. Your mobile app fetches data from this endpoint, so the API must be
+  deployed first.
+</Callout>
+
+## 📭 Step 3: Send POST Requests with Auth + Refresh UI
+
+Let’s build a secure POST request and instantly update the UI with `mutate()` from SWR.
+
+### 🧱 Create a POST API route
+
+```ts
+// app/api/chat/route.ts
+export async function POST(req: Request) {
+  const body = await req.json();
+
+  // 🔐 Get auth token from header
+  const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+
+  console.log("Received token:", token);
+
+  return Response.json({
+    message: `You said: ${body.text}`,
+  });
+}
+```
+
+### 🔐 Add Authorization Header (Bearer token)
+
+```ts
+const res = await fetch("/api/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${user.token}`, // 👈 Add your token here
+  },
+  body: JSON.stringify({ text }),
+});
+```
+
+<Callout type="warning">
+  Make sure user.token is securely retrieved (e.g. from your auth provider).
+</Callout>
+
+### 🔁 Use mutate to refresh cached data
+
+```ts
+import useSWR, { mutate } from "swr";
+
+const sendMessage = async () => {
+  await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+
+  mutate("/api/chat"); // 🔁 Re-fetch latest data from API
+};
+```
+
+<Callout type="info">
+  Want to go deeper? Learn more on the [SWR official website
+  →](https://swr.vercel.app)
+</Callout>

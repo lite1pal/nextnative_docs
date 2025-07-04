@@ -1,3 +1,121 @@
-# Send Push Notifications with FCM
+# Firebase Push Notifications
 
-The docs is being updated. Will be completed until July 10 2025.
+<Callout type="warning">
+  **Before you continue:** Make sure you've completed the [Firebase
+  Authentication](./authorization) tutorial first. It walks you through creating
+  a Firebase project and setting up your iOS/Android apps — which is required
+  for push notifications to work.
+</Callout>
+
+## ✨ Step 1: Set up your Firebase Cloud Messaging (FCM)
+
+Make sure you:
+
+- Have **Firebase Messaging** enabled in your Firebase project.
+- Downloaded the **service account JSON file** from Firebase Console
+  - Navigate to `Project Settings → Service Accounts`
+  - Click `Generate new private key`
+  - Place it in `services/firebase/` and rename if needed
+
+---
+
+## ⚖️ Step 2: Test sending push notifications manually
+
+Use the prebuilt `sendFcmMessage(fcmMessage)` function:
+
+```ts
+await sendFcmMessage({
+  message: {
+    token: "<device-fcm-token>",
+    notification: {
+      title: "New Message",
+      body: "You've got mail 🚀",
+    },
+  },
+});
+```
+
+This function handles:
+
+- Authenticating with Firebase via service account
+- Sending a POST request to the [FCM endpoint](https://firebase.google.com/docs/cloud-messaging/send-message)
+
+---
+
+## 📡 Step 3: Request push permissions (on device)
+
+This is already handled via:
+
+```ts
+checkAndRequestPermissionsForPushNotifications();
+```
+
+You can also do it manually:
+
+```ts
+await checkPermissions();
+await requestPermissions();
+```
+
+---
+
+## 🎮 Step 4: Get and update FCM token
+
+Tokens are generated per device. You need to:
+
+```ts
+await updateFcmToken(user);
+```
+
+This will:
+
+- Request FCM token
+- Send it to your API (`/user/update-fcm-token`) along with user info
+
+---
+
+## 🚀 Step 5: Listen to notifications
+
+These listeners are pre-written for you. You just need to enable them:
+
+```ts
+addNotificationReceivedListener();
+addNotificationActionPerformedListener();
+```
+
+If needed:
+
+```ts
+addTokenReceivedListener();
+getDeliveredNotifications();
+```
+
+---
+
+## 🚫 Remove listeners when done
+
+```ts
+removeAllListeners();
+```
+
+This is useful to clean up when user logs out or app closes.
+
+---
+
+## 🛠️ Troubleshooting
+
+- If messages are not delivered:
+
+  - Make sure token is valid
+  - Check Firebase Console > Logs
+  - Verify service account has **Firebase Admin SDK** enabled
+
+- If your token changes, make sure to update it again via `updateFcmToken()`
+
+---
+
+## 🔄 Next steps
+
+- Trigger push messages from your server (e.g. when new message arrives)
+- Add topic-based notifications if needed
+- Customize notification appearance with images and actions
