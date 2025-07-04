@@ -3,6 +3,8 @@ import Image from "next/image";
 
 # Rename your app (by default it’s NextNative)
 
+## iOS
+
 <Callout>
   Don't forget to run the following command whenever you make changes to the code before deploying:
 
@@ -58,3 +60,50 @@ import Image from "next/image";
   height={900}
   style={{ borderRadius: "16px" }}
 />
+
+<Callout type="info">
+  Learn more in [Capacitor
+  docs](https://capacitorjs.com/docs/ios/configuration#renaming-your-app)
+</Callout>
+
+## Android
+
+<Callout>
+  Don't forget to run the following command whenever you make changes to the code before deploying:
+
+`npm run mobile`
+
+</Callout>
+
+1. To change your app's Package ID (aka Application ID for Android), edit applicationId at the top of **android/app/build.gradle**:
+
+```gradle
+defaultConfig {
+-       applicationId "com.nextnative.app"
++       applicationId "com.mycompany.app"
+}
+```
+
+2. To change the name of your app, change the value for **app_name** and **title_activity_main** in **strings.xml**:
+
+```gradle
+<string name="app_name">MyApp</string>
+
+<string name="title_activity_main">MyApp</string>
+```
+
+3. And also in **capacitor.config.js**:
+
+<br />
+<Image
+  src="/rename-app/cap-config.jpg"
+  alt="Create a product"
+  width={900}
+  height={900}
+  style={{ borderRadius: "16px" }}
+/>
+
+<Callout type="info">
+  Learn more in [Capacitor
+  docs](https://capacitorjs.com/docs/android/configuration#changing-the-package-id)
+</Callout>
