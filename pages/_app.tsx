@@ -1,12 +1,6 @@
-import type { AppProps } from "next/app";
+import { Analytics } from "@vercel/analytics/next";
 
-import dynamic from "next/dynamic";
-
-const Analytics = dynamic(() => import("../components/analytics"), {
-  ssr: false,
-});
-
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: any) {
   return (
     <>
       <Component {...pageProps} />
