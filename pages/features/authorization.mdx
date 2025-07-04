@@ -131,7 +131,13 @@ npx cap open ios
 
 🔁 Re-download GoogleService-Info.plist and replace the old one
 
-### 7. Configure Custom URL Scheme
+### 7. Enable Apple Sign-In
+
+    1.	Go to Authentication → Sign-in method
+    2.	Enable Apple
+    3.	Save
+
+### 8. Configure Custom URL Scheme
 
     1.	In Xcode, open project settings
     2.	Select your app under Targets
@@ -145,7 +151,7 @@ npx cap open ios
   This step enables **Google login** redirect to work
 </Callout>
 
-### 8. Test Login Flow
+### 9. Test Login Flow
 
 You can now call:
 
@@ -153,6 +159,8 @@ You can now call:
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 
 await FirebaseAuthentication.signInWithGoogle();
+// or
+await FirebaseAuthentication.signInWithApple();
 ```
 
 Sign out:
