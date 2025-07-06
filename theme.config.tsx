@@ -85,7 +85,11 @@ const config: DocsThemeConfig = {
 
   primaryHue: {
     dark: 100,
-    light: 110,
+    light: 130,
+  },
+  primarySaturation: {
+    dark: 100,
+    light: 50,
   },
 };
 
