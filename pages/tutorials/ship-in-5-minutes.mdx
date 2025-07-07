@@ -12,11 +12,12 @@ We're going to use a production-ready template messenger app that I've included.
 
 ---
 
-### 2. Run Mobile Dev Server
+### 2. Run mobile dev server
 
 Use this command to start your mobile app in development mode. It handles:
 
 - Static builds
+- Next.js API support
 - Watching changes
 - Reloading updates
 
@@ -93,8 +94,8 @@ android/app/google-services.json
 ### 3. Edit build.gradle
 
 <Callout type="warning">
-  It's already done in the last update of NextNative, so if you have the latest
-  version, no need to do this.
+  **It's already done** in the last update of NextNative, so if you have the
+  latest version pulled, no need to do this.
 </Callout>
 
 Go to **android/app/build.gradle** and replace these lines:
@@ -118,7 +119,7 @@ apply plugin: 'com.google.gms.google-services'
 
 ### 4. Open in Android Studio
 
-To launch the Android app in a simulator:
+To launch an Android app in an emulator or a real device:
 
 ```shell
 npx cap open android
@@ -126,7 +127,7 @@ npx cap open android
 
 Or simply open Android Studio yourself and choose the **nextnative/ios** folder.
 
-### 5. Run the Simulator
+### 5. Run
 
 Click the ▶️ Run button in Android Studio to boot your app.
 
@@ -139,10 +140,12 @@ Click the ▶️ Run button in Android Studio to boot your app.
   height={500}
 />
 
-<Callout type="warning">
-  I highly recommend using a real device for testing because most Android
-  emulators don’t support Google Play Services which are essential for Firebase
-  Authorization and Push Notifications.
+<Callout type="info">
+  Run your app on a real Android phone.
+  <br /> <br /> It’s the only way to test native Google login reliably on a Mac
+  M1/M2. <br /> <br /> If you don't have an Android phone, no worries, you can
+  test everything in a browser. But it's recommended to test on a real device
+  before publishing an app.
 </Callout>
 
 ## You’re Live! 🚀

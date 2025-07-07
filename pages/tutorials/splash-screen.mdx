@@ -1,11 +1,13 @@
 # Customize Splash Screen in iOS & Android with Capacitor
 
-A polished mobile app experience starts with a well-designed splash screen and onboarding flow. NextNative provides components and hooks to make this process simple and effective. This tutorial will guide you through customizing both elements for your app.
+First impressions matter, and a clean splash screen makes your app feel professional right from the start.
+
+With NextNative and Capacitor, adding a native and animated splash screen is super easy. Let’s walk through it.
 
 <br />
 import Image from "next/image";
 
-<Image src="/splash-screen.gif" alt="Splash screen" width={300} height={300} />
+<Image src="/splash-screen.gif" alt="Splash screen" width={400} height={400} />
 
 The splash screen is the first thing users see when launching your app. NextNative provides both a native splash screen (using Capacitor) and a custom in-app splash screen for a smooth transition.
 
@@ -15,7 +17,7 @@ The native splash screen is managed by Capacitor and appears instantly when the 
 
 ### In-App Splash Screen
 
-The in-app splash screen takes over after the native splash screen and provides a smoother transition to your app. Let's look at how it's implemented:
+The in-app splash screen takes over after the native splash screen and provides a smoother transition to your app:
 
 ```tsx
 // app/(mobile)/components/SplashScreen.tsx
@@ -39,7 +41,7 @@ const SplashScreen = () => {
 export default SplashScreen;
 ```
 
-This component uses Framer Motion for smooth animations. The `DefaultLogo` is a simple SVG animation, but you can replace it with your own logo.
+This component uses Framer Motion for smooth animations. The `DefaultLogo` is a simple SVG animation, but **you can replace it with your own logo**.
 
 ### Managing the Splash Screen
 
