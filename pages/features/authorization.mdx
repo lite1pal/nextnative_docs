@@ -179,7 +179,9 @@ await FirebaseAuthentication.signOut();
 
 ## Android Setup
 
-### Add a new Android app
+### 1. Add a new Android app
+
+<Callout type="warning">Skip it if already done.</Callout>
 
 In the Firebase console:
 
@@ -190,7 +192,9 @@ In the Firebase console:
 
 ---
 
-### Download & place config file
+### 2. Download & place config file
+
+<Callout type="warning">Skip it if already done.</Callout>
 
 1. Download the `google-services.json` file
 2. Place it in:
@@ -199,9 +203,46 @@ In the Firebase console:
 android/app/google-services.json
 ```
 
+### 3. Set SHA-1 fingerprint
+
+<Callout type="info">It's essential to enable Google sign-in.</Callout>
+
+Open a terminal and run:
+
+#### macOS/Linux:
+
+```bash
+keytool -list -v \
+-alias androiddebugkey -keystore ~/.android/debug.keystore
+```
+
+#### Windows:
+
+```bash
+keytool -list -v \
+-alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+```
+
+The keytool utility prompts you to enter a password for the keystore. The default password for the debug keystore is android. The keytool then prints the fingerprint to the terminal. For example:
+
+```
+Certificate fingerprint: SHA1: DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09
+```
+
+Copy it and paste here in Firebase Project Settings for your Android app:
+
+<br />
+
+<Image
+  src="/authorization/certificate.png"
+  alt="Certificate"
+  width={900}
+  height={900}
+/>
+
 ---
 
-### Enable Google Sign-In
+### 4. Enable Google Sign-In
 
 In Firebase Console:
 
@@ -211,7 +252,7 @@ In Firebase Console:
 
 ---
 
-### Sign in with Google
+### 5. Sign in with Google
 
 Use the Capacitor plugin to trigger login:
 
@@ -229,7 +270,7 @@ await FirebaseAuthentication.signOut();
 
 ---
 
-### Test on real Android device
+### 6. Test on real Android device
 
 ```bash
 npx cap open android
