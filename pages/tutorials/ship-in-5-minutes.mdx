@@ -4,7 +4,7 @@ Let's get your mobile app running **in 5 minutes** ⚡️
 
 We're going to use a production-ready template messenger app that I've included.
 
-## 1. Prerequisite
+### 1. Prerequisite
 
 <Callout type="warning">
   If you haven’t already, complete the [Get Started](/) tutorial first.
@@ -12,7 +12,7 @@ We're going to use a production-ready template messenger app that I've included.
 
 ---
 
-## 2. Run Mobile Dev Server
+### 2. Run Mobile Dev Server
 
 Use this command to start your mobile app in development mode. It handles:
 
@@ -37,7 +37,9 @@ Then follow the [Preparing for deployment guide](https://docs.nextnative.dev/pre
 
 </Callout>
 
-## 3. Open in Xcode
+## iOS
+
+### 1. Open in Xcode
 
 To launch the iOS app in a simulator:
 
@@ -47,7 +49,7 @@ npx cap open ios
 
 Or simply open Xcode yourself and choose the **nextnative/ios** folder.
 
-## 4. Run the Simulator
+### 2. Run the Simulator
 
 Click the ▶️ Run button in Xcode to boot your app.
 
@@ -66,7 +68,78 @@ import Image from "next/image";
 
 ✅ All future reloads will be much faster.
 
-## 5. You’re Live! 🚀
+## Android
+
+### 1. Add a new Android app on Firebase
+
+In the [Firebase console](https://console.firebase.google.com):
+
+1. Click **Add App** → Select **Android**
+2. Enter your app’s **Package name** (e.g. `com.nextnative.app`)
+3. (Optional) Add app nickname
+4. Click **Register app**
+
+---
+
+### 2. Download & place config file
+
+1. Download the `google-services.json` file
+2. Place it in:
+
+```bash
+android/app/google-services.json
+```
+
+### 3. Edit build.gradle
+
+<Callout type="warning">
+  It's already done in the last update of NextNative, so if you have the latest
+  version, no need to do this.
+</Callout>
+
+Go to **android/app/build.gradle** and replace these lines:
+
+```gradle
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}
+```
+
+with only this one line:
+
+```gradle
+apply plugin: 'com.google.gms.google-services'
+```
+
+### 4. Open in Android Studio
+
+To launch the Android app in a simulator:
+
+```shell
+npx cap open android
+```
+
+Or simply open Android Studio yourself and choose the **nextnative/ios** folder.
+
+### 5. Run the Simulator
+
+Click the ▶️ Run button in Android Studio to boot your app.
+
+<br />
+
+<Image
+  src="/run-emulator-android.png"
+  alt="Run an emulator in Android Studio"
+  width={500}
+  height={500}
+/>
+
+## You’re Live! 🚀
 
 That’s it, you’ve got a native mobile app running with Next.js in just a few minutes.
 
