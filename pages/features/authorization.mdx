@@ -186,12 +186,10 @@ await FirebaseAuthentication.signOut();
 
 ### 1. Add a new Android app
 
-<Callout type="warning">Skip it if already done.</Callout>
-
 In the Firebase console:
 
 1. Click **Add App** → Select **Android**
-2. Enter your app’s **Package name** (e.g. `com.nextnative.app`)
+2. Enter your app’s **Package name** (e.g. `com.yourcompany.appname`)
 3. (Optional) Add app nickname
 4. Click **Register app**
 
@@ -217,13 +215,15 @@ keytool -list -v \
 -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
 ```
 
-It will prompt you to enter a password for the keystore. The default password for the debug keystore is **android**. The keytool then prints the fingerprint to the terminal. For example:
+It will prompt you to enter a password for the keystore.
+
+The default password for the debug keystore is **android**. The keytool then prints the fingerprint to the terminal. For example:
 
 ```
 Certificate fingerprint: SHA1: DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09
 ```
 
-Copy it and paste here in Firebase Project Settings for your Android app:
+Copy it and paste here in **Firebase Project Settings** for your Android app:
 
 <br />
 
@@ -234,7 +234,7 @@ Copy it and paste here in Firebase Project Settings for your Android app:
   height={900}
 />
 
-### 3. Redownload & place config file with updated SHA-1 value
+### 3. Download & replace config file
 
 1. Download the `google-services.json` file
 2. Place it in:
@@ -288,16 +288,16 @@ npx cap open android
 
 ### 1. Add a new Web app in Firebase
 
-1.  Go to your Firebase project
-2.  Click Add App → Select the Web icon
+1.  Go to your **Firebase project**
+2.  Click **Add App** → Select the Web icon
 3.  Enter a nickname (e.g. My Web App)
-4.  Click Register App
+4.  Click **Register App**
 
 ### 2. Update values in .env.local
 
 <Callout type="warning">Skip if already done.</Callout>
 
-Take these Firebase Auth config values and paste them in your **.env.local**
+Take these **Firebase Auth** config values and paste them in your **.env.local**
 
 <br />
 <Image
