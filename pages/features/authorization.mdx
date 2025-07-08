@@ -192,18 +192,7 @@ In the Firebase console:
 
 ---
 
-### 2. Download & place config file
-
-<Callout type="warning">Skip it if already done.</Callout>
-
-1. Download the `google-services.json` file
-2. Place it in:
-
-```bash
-android/app/google-services.json
-```
-
-### 3. Set SHA-1 fingerprint
+### 2. Set SHA-1 fingerprint
 
 <Callout type="info">It's essential to enable Google sign-in.</Callout>
 
@@ -239,6 +228,15 @@ Copy it and paste here in Firebase Project Settings for your Android app:
   width={900}
   height={900}
 />
+
+### 3. Redownload & place config file with updated SHA-1 value
+
+1. Download the `google-services.json` file
+2. Place it in:
+
+```bash
+android/app/google-services.json
+```
 
 ---
 
