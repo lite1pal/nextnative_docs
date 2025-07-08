@@ -75,6 +75,8 @@ import Image from "next/image";
 
 </Callout>
 
+### Renaming
+
 1. To change your app's Package ID (aka Application ID for Android), edit **applicationId** and **namespace** at the top of **android/app/build.gradle**:
 
 ```gradle
@@ -97,7 +99,7 @@ android {
 <string name="custom_url_scheme">com.mycompany.appname</string>
 ```
 
-3. And also in **capacitor.config.js**:
+3. Also in **capacitor.config.js**:
 
 <br />
 <Image
@@ -108,7 +110,48 @@ android {
   style={{ borderRadius: "16px" }}
 />
 
-<Callout type="info">
-  Learn more in [Capacitor
-  docs](https://capacitorjs.com/docs/android/configuration#changing-the-package-id)
-</Callout>
+4. And finally **rename** a package name in **Android Studio**.
+
+Right-click the package (e.g. com.nextnative.app)
+
+Select Refactor → Rename...
+
+<br />
+<Image
+  src="/rename-app/rename-app-1.png"
+  alt="Create a product"
+  width={900}
+  height={900}
+  style={{ borderRadius: "16px" }}
+/>
+
+Enter your new package name: **com.yourcompany.appname**
+
+<br />
+<Image
+  src="/rename-app/rename-app-2.png"
+  alt="Create a product"
+  width={900}
+  height={900}
+  style={{ borderRadius: "16px" }}
+/>
+
+### 🧼 Final Step: Clean + Invalidate Caches (Do NOT skip this)
+
+After changing your app’s package name, namespace, and Java folder structure, Android Studio might still hold on to outdated paths or cached builds. This can lead to strange build errors or the old app ID being used silently.
+
+#### 1. Clean the Project
+
+**Menu → Build → Clean Project**
+
+This removes stale build files.
+
+#### 2. Invalidate Caches and Restart IDE
+
+**Menu → File → Invalidate Caches**
+
+Then click:
+
+**🟦 Invalidate and Restart**
+
+Android Studio will wipe its internal caches, restart, and rebuild everything from scratch using the new package name and paths.
