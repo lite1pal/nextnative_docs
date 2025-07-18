@@ -31,3 +31,40 @@ Paste the values into your `.env`:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
+
+## 🔄 Replacing Supabase with Your Own Postgres Setup (Advanced)
+
+If you prefer full control, you can swap Supabase with your own hosted PostgreSQL database.
+
+### Set Up Your Own Postgres Database
+
+Use a managed service like:
+
+• Render<br/>
+• Neon<br/>
+• DigitalOcean<br/>
+• Or host it yourself.
+
+Make sure to configure:
+
+• Database URL<br/>
+• Authentication method<br/>
+• Allowed IPs<br/>
+• SSL if needed
+
+### Update Your Environment Variables
+
+Instead of Supabase variables, use a direct Postgres connection string:
+
+```bash
+DATABASE_URL=postgresql://user:password@host:port/database
+```
+
+You can either:
+• Use Prisma ORM
+• Or build your own queries using a library like pg
+
+### ✅ Why It’s Set Up This Way
+
+NextNative uses Supabase only for convenience.
+But everything is decoupled, so you can fully swap out the database layer without touching your auth, mobile UI or frontend logic.
