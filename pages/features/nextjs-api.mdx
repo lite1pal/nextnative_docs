@@ -28,7 +28,7 @@ import useSWR from "swr";
 
 function HelloMessage() {
   const { data, isLoading, error } = useSWR(
-    `${config.api.url}/api/hello`,
+    `${config.api.url}/hello`,
     fetcher,
     {
       refreshInterval: 500, // optional polling
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
 ### 🔐 Add Authorization Header (Bearer token)
 
 ```ts
-const res = await fetch(`${config.api.url}/api/chat`, {
+const res = await fetch(`${config.api.url}/chat`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const res = await fetch(`${config.api.url}/api/chat`, {
 import useSWR, { mutate } from "swr";
 
 const sendMessage = async () => {
-  await fetch(`${config.api.url}/api/chat`, {
+  await fetch(`${config.api.url}/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
