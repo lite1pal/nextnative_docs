@@ -113,3 +113,25 @@ const sendMessage = async () => {
   Want to go deeper? Learn more on the [SWR official website
   →](https://swr.vercel.app)
 </Callout>
+
+## 🌍 Step 4: Support CORS with OPTIONS Handler
+
+When sending requests from a mobile app, especially with custom headers, the browser or WebView may first send an OPTIONS preflight request. If your API route doesn’t respond to it, the request will fail.
+
+To support this, add an OPTIONS handler to your route:
+
+```ts
+// app/api/chat/route.ts
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+```
+
+This ensures your endpoint handles preflight checks properly, allowing mobile apps (and other clients) to make authenticated POST requests with no issues.
