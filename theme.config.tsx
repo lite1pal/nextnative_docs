@@ -41,7 +41,7 @@ const config: DocsThemeConfig = {
     key: "cta-banner",
     text: (
       <span>
-        🚀 <strong>Launch mobile apps faster with Next.js</strong>
+        🚀 <strong>Launch mobile apps 10x faster with Next.js</strong>
         <a
           href="https://nextnative.dev"
           target="_blank"
