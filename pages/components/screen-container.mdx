@@ -1,0 +1,54 @@
+# 📱 ScreenContainer
+
+A layout wrapper for mobile screens. It provides:
+
+• Consistent spacing<br/>
+• Safe area padding (avoids notches and bottom tabs)<br/>
+• Scroll support (if needed)
+
+✅ When to use:
+
+Wrap any mobile screen in ScreenContainer to:
+
+• Make sure content doesn’t get hidden behind status bar, tabs, or keyboard<br/>
+• Apply common styles across screens
+
+```tsx
+import ScreenContainer from "@/components/ScreenContainer";
+
+export default function SettingsScreen() {
+  return (
+    <ScreenContainer>
+      <div>Settings screen</div>
+    </ScreenContainer>
+  );
+}
+```
+
+Then add it in **app.tsx**:
+
+```tsx
+export default function App() {
+  return (
+    <IonTabs>
+      <IonRouterOutlet>
+        {/* Other screens */}
+
+        <Route exact path="/app/settings" component={SettingsScreen} />
+
+        <Route exact path="/app">
+          <Redirect to="/app/settings" />
+        </Route>
+      </IonRouterOutlet>
+
+      <IonTabBar slot="bottom">
+        {/* Other tabs */}
+
+        <IonTabButton tab="/app/settings" href="/app/settings">
+          <Settings size={22} />
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
+  );
+}
+```

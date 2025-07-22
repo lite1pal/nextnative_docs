@@ -1,0 +1,51 @@
+# 🪟 Modal Component
+
+A reusable modal system for your app. It includes:
+
+• **useModalController()** — controls modal open/close<br/>
+• **ModalWrapper** — clean layout with optional header
+
+## How to Use
+
+```tsx
+const { modalRef, isOpen, open, close } = useModalController();
+```
+
+Then render the modal:
+
+```tsx
+<ModalWrapper modalRef={modalRef} presentingElement={presentingElement}>
+  <div>
+    <button onClick={close}>Close</button>
+    <PremiumScreen dismiss={close} />
+  </div>
+</ModalWrapper>
+```
+
+## useModalController
+
+A custom hook that makes modal management easier.
+
+Returns:
+
+**modalRef** - Ref to pass into modal
+**isOpen** - Whether modal is open
+**open()** - Opens the modal
+**close()** - Closes the modal
+
+## Example
+
+```tsx
+const {
+modalRef,
+open,
+close,
+} = useModalController();
+
+<IonButton onClick={open}>Open Modal</IonButton>
+
+<ModalWrapper modalRef={modalRef} presentingElement={pageRef.current}>
+  <X onClick={close} />
+  <PremiumScreen dismiss={close} />
+</ModalWrapper>
+```
