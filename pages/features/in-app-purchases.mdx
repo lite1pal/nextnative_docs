@@ -3,26 +3,31 @@ import Image from "next/image";
 
 # Set Up In-App Purchases & Subscriptions with RevenueCat + Capacitor
 
-Let's set up in-app purchases in your NextNative app using RevenueCat. It's pretty straightforward.
+Let's set up in-app purchases & subscriptions in your NextNative app using RevenueCat.
 
 ## What's RevenueCat?
 
 RevenueCat handles all the complex stuff with in-app purchases so you don't have to. It works across iOS and Android, and gives you a simple API to work with.
 
-## Getting Started
+## Setting up RevenueCat
 
-1. Head over to [RevenueCat](https://www.revenuecat.com/) and create an account
+### 1. Create a RevenueCat account
+
+Head over to [RevenueCat](https://www.revenuecat.com/) and create an account
 
 <Callout>
-  Before you can start using RevenueCat to fetch products, you must configure your products in the respective stores. See the following guides for [App Store Connect](https://www.revenuecat.com/docs/getting-started/entitlements/ios-products), Google Play Console, Amazon Appstore, Stripe, and Paddle for help navigating through this process.
+  Before you can start using RevenueCat to fetch products, you must configure your products in the respective stores. See the following guides for [App Store Connect](https://www.revenuecat.com/docs/getting-started/entitlements/ios-products), [Google Play Console](https://www.revenuecat.com/docs/getting-started/entitlements/android-products) for help navigating through this process.
 
 If you are selling iOS products, be sure to sign your 'Paid Applications Agreement' and fill out your bank and tax information in App Store Connect > Agreements, Tax, and Banking. This needs to be completed before you can test any purchases.
 
 </Callout>
 >
 
-2. Once your in-app products have been configured in App Store Connect/Google, go to RevenueCat's dashboard, and create new products.
+### 2. Import configured products
 
+Once your in-app products have been configured in App Store Connect/Google, go to RevenueCat's dashboard, and create new products.
+
+<br />
 <Image
   src="/purchases/create-product.png"
   alt="Create a product"
@@ -36,7 +41,7 @@ If you are selling iOS products, be sure to sign your 'Paid Applications Agreeme
   (e.g., Apple, Google).
 </Callout>
 
-3. Choose the app that you set up in the Apple/Google.
+Choose the app that you set up in the Apple/Google.
 
 <br />
 <Image
@@ -47,7 +52,7 @@ If you are selling iOS products, be sure to sign your 'Paid Applications Agreeme
   style={{ borderRadius: "16px" }}
 />
 
-4. Click **Import** to add all products automatically.
+Click **Import** to add all products automatically.
 
 <br />
 <Image
@@ -58,7 +63,9 @@ If you are selling iOS products, be sure to sign your 'Paid Applications Agreeme
   style={{ borderRadius: "16px" }}
 />
 
-Then go to each product, copy its **RevenueCat ID**, and paste into **.env** file
+### 3. Add api keys and product ids to **.env.local**
+
+Then go to each product, copy its **Identifier**, and paste into **.env** file
 
 ```
 NEXT_PUBLIC_REVENUECAT_API_KEY=your_revenuecat_key_here
@@ -104,4 +111,6 @@ function PremiumFeature({ user }) {
 - Check the RevenueCat dashboard to see purchases
 - **Test on real devices** (the simulator is tricky with purchases)
 
-That's it! RevenueCat makes in-app purchases & subscriptions way easier than doing it all yourself. Check out their [docs](https://docs.revenuecat.com/docs) for more details.
+That's it! RevenueCat makes in-app purchases & subscriptions way easier than doing it all yourself.
+
+Check out their [docs](https://docs.revenuecat.com/docs) for more details.
