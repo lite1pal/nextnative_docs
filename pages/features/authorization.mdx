@@ -191,6 +191,16 @@ await FirebaseAuthentication.signOut();
 
 ## Android Setup
 
+<Callout type="info">
+  If you don't need Firebase Auth/Notifications in your app at all,
+  go to **build.gradle** and remove this line:
+
+```
+apply plugin: 'com.google.gms.google-services'
+```
+
+</Callout>
+
 <Callout type="warning">
   [Rename your app](../preparing-for-deployment/rename-your-app) before setting
   up Firebase Authorization for Android.
