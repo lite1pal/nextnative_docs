@@ -138,6 +138,13 @@ Enter your new package name: **com.yourcompany.appname**
   style={{ borderRadius: "16px" }}
 />
 
+<Callout type="warning">
+If that didn’t work for some reason, rename **android/src/main/java/com/[yourcompany]/[appname]** path yourself.
+
+Then change “package” in **android/src/main/java/com/[yourcompany]/[appname]/MainActivity.java** to your new app’s package name.
+
+</Callout>
+
 ### 🧼 Final Step: Clean + Invalidate Caches (Do NOT skip this)
 
 After changing your app’s package name, namespace, and Java folder structure, Android Studio might still hold on to outdated paths or cached builds. This can lead to strange build errors or the old app ID being used silently.

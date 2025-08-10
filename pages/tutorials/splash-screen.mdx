@@ -7,7 +7,13 @@ With NextNative and Capacitor, adding a native and animated splash screen is sup
 <br />
 import Image from "next/image";
 
-<Image src="/splash-screen.gif" alt="Splash screen" width={400} height={400} />
+<Image
+  src="/splash-screen.gif"
+  alt="Splash screen"
+  width={400}
+  height={400}
+  style={{ borderRadius: "16px" }}
+/>
 
 The splash screen is the first thing users see when launching your app. NextNative provides both a native splash screen (using Capacitor) and a custom in-app splash screen for a smooth transition.
 
@@ -27,7 +33,7 @@ import { motion } from "framer-motion";
 const SplashScreen = () => {
   return (
     <motion.div
-      className="fixed inset-0 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 z-50 overflow-hidden"
+      className="fixed inset-0 z-50 overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700"
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
       transition={{ duration: 0.5, delay: 1.5 }}

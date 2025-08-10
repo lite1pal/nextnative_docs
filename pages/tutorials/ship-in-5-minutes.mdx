@@ -63,6 +63,7 @@ import Image from "next/image";
   alt="Run an emulator in Xcode"
   width={500}
   height={500}
+  style={{ borderRadius: "16px" }}
 />
 
 🕓 The first build might take a bit longer — Xcode will compile and set up your project.
@@ -70,6 +71,18 @@ import Image from "next/image";
 ✅ All future reloads will be much faster.
 
 ## Android
+
+<Callout type="info">
+  If you don't need Firebase Auth/Notifications in your app at all,
+  go to **build.gradle** and remove this line:
+
+```
+apply plugin: 'com.google.gms.google-services'
+```
+
+Then skip to [Step 5](/tutorials/ship-in-5-minutes#4-rerun-a-mobile-dev-server).
+
+</Callout>
 
 <Callout type="warning">
   [Rename your app](../preparing-for-deployment/rename-your-app) before setting
@@ -149,6 +162,7 @@ Click the ▶️ Run button in Android Studio to boot your app.
   alt="Run an emulator in Android Studio"
   width={500}
   height={500}
+  style={{ borderRadius: "16px" }}
 />
 
 <Callout type="info">
@@ -171,6 +185,7 @@ Go ahead and start building your own features:
   alt="Ship in 5 minutes"
   width={350}
   height={350}
+  style={{ borderRadius: "16px" }}
 />
 
 ## Next Steps
