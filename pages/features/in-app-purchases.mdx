@@ -1,7 +1,7 @@
 import { Callout } from "nextra-theme-docs";
 import Image from "next/image";
 
-# Set Up In-App Purchases with RevenueCat + Capacitor
+# Set Up In-App Purchases & Subscriptions with RevenueCat + Capacitor
 
 Let's set up in-app purchases in your NextNative app using RevenueCat. It's pretty straightforward.
 
@@ -66,7 +66,7 @@ NEXT_PUBLIC_REVENUECAT_LIFETIME_ID=your_lifetime_product_id
 
 ## Using useRevenueCat in your app
 
-useRevenueCat hook is located at **services/revenue-cat.ts**. It has all essentials functions to get payments from your users.
+**useRevenueCat** hook is located at **services/revenue-cat.ts**. It has all essentials functions to get payments from your users.
 
 ```tsx
 function PremiumFeature({ user }) {
@@ -84,7 +84,7 @@ function PremiumFeature({ user }) {
     return (
       <div>
         <h2>Unlock Premium Features</h2>
-        <button onClick={() => purchase("premium_monthly")}>
+        <button onClick={() => purchase("monthly")}>
           Go Premium - $4.99/month
         </button>
       </div>
@@ -99,6 +99,6 @@ function PremiumFeature({ user }) {
 
 - Use Apple/Google sandbox accounts for testing
 - Check the RevenueCat dashboard to see purchases
-- Test on real devices (the simulator is tricky with purchases)
+- **Test on real devices** (the simulator is tricky with purchases)
 
-That's it! RevenueCat makes in-app purchases way easier than doing it all yourself. Check out their [docs](https://docs.revenuecat.com/docs) for more details.
+That's it! RevenueCat makes in-app purchases & subscriptions way easier than doing it all yourself. Check out their [docs](https://docs.revenuecat.com/docs) for more details.
