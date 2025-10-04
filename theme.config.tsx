@@ -79,6 +79,14 @@ const config: DocsThemeConfig = {
             : "https://nextnative.dev/docs"
         }
       />
+
+      {/* DataFast */}
+      <script
+        defer
+        data-website-id="dfid_Cav571qeVNsjcHWPpsWxs"
+        data-domain="nextnative.dev"
+        src="https://datafa.st/js/script.js"
+      ></script>
     </>
   ),
 
