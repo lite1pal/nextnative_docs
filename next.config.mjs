@@ -9,7 +9,6 @@ const nextConfig = {
   // distDir: "build"
   basePath: '/docs',         
   trailingSlash: false,
-  assetPrefix: 'https://nextnative.dev',
 };
 
 const withNextra = nextra({
