@@ -70,6 +70,15 @@ const config: DocsThemeConfig = {
     <>
       <meta name="robots" content="index, follow" />
       <meta name="title" content="NextNative Docs" />
+      {/* ✅ Canonical URL (resolves to main domain /docs path) */}
+      <link
+        rel="canonical"
+        href={
+          typeof window !== "undefined"
+            ? `https://nextnative.dev/docs${window.location.pathname}`
+            : "https://nextnative.dev/docs"
+        }
+      />
     </>
   ),
 
