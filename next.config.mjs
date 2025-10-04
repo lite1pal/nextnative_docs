@@ -7,7 +7,8 @@ const nextConfig = {
   },
   // Optional: Change the output directory `out` -> `dist`
   // distDir: "build"
-  basePath: '/docs',         
+  basePath: '/docs',        
+  assetPrefix: "/docs/", 
   trailingSlash: false,
 };
 
