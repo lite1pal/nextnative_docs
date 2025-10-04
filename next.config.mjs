@@ -8,6 +8,7 @@ const nextConfig = {
   // Optional: Change the output directory `out` -> `dist`
   // distDir: "build"
   basePath: '/docs',
+  trailingSlash: false,
 };
 
 const withNextra = nextra({
