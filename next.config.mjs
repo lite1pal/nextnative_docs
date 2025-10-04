@@ -7,6 +7,9 @@ const nextConfig = {
   },
   // Optional: Change the output directory `out` -> `dist`
   // distDir: "build"
+  basePath: '/docs',         
+  trailingSlash: false,
+  assetPrefix: 'https://nextnative.dev',
 };
 
 const withNextra = nextra({
