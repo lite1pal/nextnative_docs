@@ -328,7 +328,7 @@ function ProfileScreen() {
         <img
           src={photo}
           alt="Profile Photo"
-          className="w-32 h-32 rounded-full object-cover"
+          className="h-32 w-32 rounded-full object-cover"
         />
       )}
 
@@ -495,7 +495,7 @@ export default function LocationPhotoScreen() {
   return (
     <ScreenContainer>
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Location Photos</h1>
+        <h1 className="mb-4 text-2xl font-bold">Location Photos</h1>
 
         <div className="mb-4">
           <IonButton
@@ -511,12 +511,12 @@ export default function LocationPhotoScreen() {
           {photos.map((photo, index) => (
             <div
               key={index}
-              className="border rounded-lg overflow-hidden bg-white dark:bg-gray-800"
+              className="overflow-hidden rounded-lg border bg-white dark:bg-gray-800"
             >
               <img
                 src={photo.photoUrl}
                 alt={`Location ${index}`}
-                className="w-full h-40 object-cover"
+                className="h-40 w-full object-cover"
               />
               <div className="p-2">
                 <p className="text-xs text-gray-500">
@@ -527,7 +527,7 @@ export default function LocationPhotoScreen() {
                   {photo.location.longitude.toFixed(4)}
                 </p>
                 <button
-                  className="mt-2 text-blue-500 text-sm"
+                  className="mt-2 text-sm text-blue-500"
                   onClick={() => sharePhoto(photo)}
                 >
                   Share
@@ -538,7 +538,7 @@ export default function LocationPhotoScreen() {
         </div>
 
         {photos.length === 0 && (
-          <p className="text-center text-gray-500 mt-8">
+          <p className="mt-8 text-center text-gray-500">
             No photos yet. Tap the button above to capture one!
           </p>
         )}
@@ -564,3 +564,16 @@ For more information on available plugins and their APIs, refer to the [Capacito
   Learn more in [Capacitor docs](https://capacitorjs.com/docs/apis)
 </Callout>
 >
+
+<Callout type="default" emoji="📚">
+  Want to go deeper? Explore more tutorials like:
+
+- 🧩 [Ship in 5 minutes](/tutorials/ship-in-5-minutes)
+- 🔄 [Make Requests to Next.js API](/tutorials/make-requests-to-api)
+- 🧪 [Router](/tutorials/ionic-router)
+- 🎨 [Splash Screen Setup](/tutorials/splash-screen)
+- 🔑 [Onboarding Flow](/tutorials/onboarding-flow)
+
+Every piece brings you closer to launching a full-featured mobile app.
+
+</Callout>
