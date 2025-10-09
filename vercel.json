@@ -1,0 +1,11 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "docs.nextnative.dev" }],
+      "missing": [{ "type": "header", "key": "x-vercel-proxy-signature" }],
+      "destination": "https://nextnative.dev/docs/:path*",
+      "permanent": true
+    }
+  ]
+}
