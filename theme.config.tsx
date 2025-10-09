@@ -75,8 +75,8 @@ const config: DocsThemeConfig = {
         rel="canonical"
         href={
           typeof window !== "undefined"
-            ? `https://nextnative.dev/docs${window.location.pathname}`
-            : "https://nextnative.dev/docs"
+            ? `https://nextnative.dev${window.location.pathname}`
+            : "https://nextnative.dev"
         }
       />
 
