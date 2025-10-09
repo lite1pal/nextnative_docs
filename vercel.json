@@ -1,9 +1,0 @@
-{
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "destination": "https://nextnative.dev/docs/$1",
-      "permanent": true
-    }
-  ]
-}
