@@ -52,6 +52,12 @@ Or simply open Xcode yourself and choose the **nextnative/ios/App/App.xcworkspac
 
 ### 2. Run the Simulator
 
+<Callout type="warning">
+  If you want to run on a real device right away, [rename your
+  app](/preparing-for-deployment/rename-your-app) first because Apple requires a
+  unique bundle id for this.
+</Callout>
+
 Click the ▶️ Run button in Xcode to boot your app.
 
 import Image from "next/image";
@@ -74,7 +80,7 @@ import Image from "next/image";
 
 <Callout type="info">
   If you don't need Firebase Auth/Notifications in your app at all,
-  go to **build.gradle** and remove this line:
+  go to **android/app/build.gradle** and remove this line:
 
 ```
 apply plugin: 'com.google.gms.google-services'
